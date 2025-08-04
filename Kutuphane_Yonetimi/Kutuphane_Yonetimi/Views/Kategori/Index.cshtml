@@ -1,14 +1,30 @@
-﻿
+﻿@using Kutuphane_Yonetimi.Models.Entity
+@model List<TBL_KATEGORI>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-<h2>Index
-    dslkflksd
-    
-    dsfsf
-    sadsasadas
-    fdsds
-    sada</h2>
+<h2>KAtegoriler</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>KATEGORİ ID</th>
+        <th>KATEGORİ AD</th>
+        <th>KATEGORİ SİL</th>
+        <th>KATEGORİ GÜNCELLE</th>
+
+     
+    </tr>
+    @foreach (var ktg in Model)
+    {
+    <tr>
+        <td>@ktg.ID</td>
+        <td>@ktg.AD</td>
+        <td><a href="#" class="btn btn-danger">SİL</a></td>
+        <td><a href="#" class="btn btn-success">GÜNCELLE</a></td>
+    </tr>
+    }
+</table>
+ <a href="" class="btn btn-primary" >Yeni kategori ekle</a>
 
