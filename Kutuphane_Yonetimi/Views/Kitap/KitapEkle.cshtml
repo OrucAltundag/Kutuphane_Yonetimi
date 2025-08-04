@@ -1,0 +1,83 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_KITAP
+@{
+    ViewBag.Title = "KitapEkle";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>KitapEkle</h2>
+
+@using (Html.BeginForm("KitapEkle", "Kitap", FormMethod.Post, new { @class = "form-group" }))
+{
+    @Html.AntiForgeryToken()
+    @* CSRF saldırılarına karşı koruma *@
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @* ModelState hatalarını sayfa başında özet olarak gösterir *@
+
+    <div class="mb-3">
+        <label for="AD">Kitap Adı</label>
+        @Html.TextBoxFor(y => y.AD, new { @class = "form-control", placeholder = "Kitap Adı" })
+        @Html.ValidationMessageFor(y => y.AD, "", new { @class = "text-danger" })
+        @* Zorunluysa modelde [Required] kullan *@
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Yazar Adı-Soyadı</label>
+        @Html.DropDownListFor(k => k.YAZAR,         // int FK alana bağlıyoruz
+            (IEnumerable<SelectListItem>)ViewBag.dgry,
+            "-- yazar seç --",
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(k => k.YAZAR, "", new { @class = "text-danger" })
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Kitap Kategori</label>
+        @Html.DropDownListFor(k => k.KATEGORI,      // int FK alana bağlıyoruz
+            (IEnumerable<SelectListItem>)ViewBag.dgr,
+            "-- kategori seç --",
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(k => k.KATEGORI, "", new { @class = "text-danger" })
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Basım Yılı</label>
+        @Html.TextBoxFor(y => y.BASIMYIL, new
+        {
+            @class = "form-control",
+            maxlength = "4",
+            minlength = "4",
+            pattern = "\\d{4}",
+            placeholder = "Örn: 2020",
+            inputmode = "numeric"
+        })
+        @Html.ValidationMessageFor(y => y.BASIMYIL, "", new { @class = "text-danger" })
+        @* İstemci tarafı 4 hane kısıtı. Sunucuda da Range(1000,9999) önerilir *@
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Yayın Evi</label>
+        @Html.TextBoxFor(y => y.YAYINEVI, new { @class = "form-control", placeholder = "Yayın evi" })
+        @Html.ValidationMessageFor(y => y.YAYINEVI, "", new { @class = "text-danger" })
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Sayfa</label>
+        @Html.TextBoxFor(y => y.SAYFA, new { @class = "form-control", type = "number", min = "1", placeholder = "Örn: 264" })
+        @Html.ValidationMessageFor(y => y.SAYFA, "", new { @class = "text-danger" })
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Durum</label>
+        @Html.DropDownListFor(y => y.DURUM,
+     new List<SelectListItem> {
+         new SelectListItem { Text = "Mevcut", Value = "true" },
+         new SelectListItem { Text = "Ödünçte", Value = "false" }
+     }, new { @class = "form-control" })
+
+        @Html.ValidationMessageFor(y => y.DURUM, "", new { @class = "text-danger" })
+    </div>
+
+    <div style="margin-top:15px">
+        <button type="submit" class="btn btn-primary">Kitap Ekle</button>
+    </div>
+}
