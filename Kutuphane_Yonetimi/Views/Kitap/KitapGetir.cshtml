@@ -1,0 +1,69 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_KITAP
+@{
+    ViewBag.Title = "KitapGetir";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>KitapGetir</h2>
+
+@using (Html.BeginForm("KitapGuncelle", "Kitap", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class=" form-group">
+        <div style="margin-top:15px">
+
+            <label for="ID">Kitap ID:</label>
+            @Html.TextBoxFor(y => y.ID, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div style="margin-top:15px">
+
+            <label for="AD">Kitap AD:</label>
+            @Html.TextBoxFor(y => y.AD, new { @class = "form-control" })
+        </div>
+        <div style="margin-top:15px">
+
+            <label for="YAZAR">YAZAR AD SOYAD:</label>
+            @Html.DropDownListFor(k => k.YAZAR, (List<SelectListItem>)ViewBag.dgry, new { @class = "form-control" })
+        </div>
+        <div style="margin-top:15px">
+
+            <label for="KATEGORI">Kategori:</label>
+            @Html.DropDownListFor(k => k.KATEGORI, (List<SelectListItem>)ViewBag.dgr, new { @class = "form-control" })
+        </div>
+        <div style="margin-top:15px">
+
+            <label for="BASIMYIL">BASIM YILI:</label>
+            @Html.TextBoxFor(y => y.BASIMYIL, new
+            {
+                @class = "form-control",
+           maxlength = "4",
+           minlength = "4",
+           pattern = "\\d{4}",
+           placeholder = "Örn: 2020",
+           inputmode = "numeric"
+       })
+        </div>
+        <div style="margin-top:15px">
+
+            <label for="YAYINEVI">YAYIN EVİ:</label>
+            @Html.TextBoxFor(y => y.YAYINEVI, new { @class = "form-control" })
+        </div>
+        <div style="margin-top:15px">
+
+            <label for="SAYFA">SAYFA:</label>
+            @Html.TextBoxFor(y => y.SAYFA, new { @class = "form-control" })
+        </div>
+        <div style="margin-top:15px">
+            <label for="DURUM">Durum:</label>
+            @Html.DropDownListFor(y => y.DURUM,
+            new List<SelectListItem> {
+                 new SelectListItem { Text = "Mevcut", Value = "true" },
+                  new SelectListItem { Text = "Ödünçte", Value = "false" }
+             }, new { @class = "form-control" })
+
+        </div>
+
+        <button class="btn btn-success">Kaydet</button>
+    </div>
+}
