@@ -11,10 +11,12 @@ namespace Kutuphane_Yonetimi.Models.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TBL_PERSONEL
     {
         public byte ID { get; set; }
+        [Required(ErrorMessage ="Personel adý ve soyadý boþ geçilemez")]
         public string PERSONEL { get; set; }
     }
 }

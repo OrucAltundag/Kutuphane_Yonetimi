@@ -35,8 +35,17 @@
         <tr>
             <td>@item.ID</td>
             <td>@item.AD</td>
-            <td>@item.TBL_YAZAR.AD @item.TBL_YAZAR.SOYAD</td>
-            <td>@item.TBL_KATEGORI.AD</td>
+            <td>
+                @(item.TBL_YAZAR != null
+        ? item.TBL_YAZAR.AD + " " + item.TBL_YAZAR.SOYAD
+        : "—")
+            </td>
+            <td>
+                @(item.TBL_KATEGORI != null
+        ? item.TBL_KATEGORI.AD
+        : "—")
+            </td>
+
             <td>@item.BASIMYIL</td>
             <td>@item.YAYINEVI</td>
             <td>@item.SAYFA</td>

@@ -26,9 +26,13 @@ namespace Kutuphane_Yonetimi.Controllers
         [HttpPost] // Personel ekleme işlemi için
         public ActionResult PersonelEkle(TBL_PERSONEL p)
         {
+            if(!ModelState.IsValid)
+            {
+                return View("PersonelEkle"); // Model geçerli değilse, aynı sayfayı döndür
+            }
             db.TBL_PERSONEL.Add(p); // Yeni Personel ekle
             db.SaveChanges();        // Değişiklikleri kaydet
-            return View();    //RedirectToAction("Index"); // Ekleme işleminden sonra Index sayfasına yönlendir
+            return RedirectToAction("Index"); // Ekleme işleminden sonra Index sayfasına yönlendir
         }
 
         public ActionResult PersonelSil(int id)
@@ -41,12 +45,18 @@ namespace Kutuphane_Yonetimi.Controllers
 
         public ActionResult PersonelGetir(int id)
         {
+            
             var per = db.TBL_PERSONEL.Find(id); // Güncellenecek Personel bul
             return View("PersonelGetir", per);  // Kategori güncelleme sayfasını döndür
         }
 
         public ActionResult PersonelGuncelle(TBL_PERSONEL p)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("PersonelGetir"); // Model geçerli değilse, aynı sayfayı döndür
+            }
+
             var per = db.TBL_PERSONEL.Find(p.ID); // Güncellenecek Personel bul
             per.PERSONEL = p.PERSONEL;                // Personel adını güncelle
             db.SaveChanges();                              // Değişiklikleri kaydet

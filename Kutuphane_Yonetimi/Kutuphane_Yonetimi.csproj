@@ -133,6 +133,7 @@
     <Compile Include="Controllers\KategoriController.cs" />
     <Compile Include="Controllers\KitapController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
+    <Compile Include="Controllers\UyelerController.cs" />
     <Compile Include="Controllers\YazarController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -260,6 +261,9 @@
     <Content Include="Views\Personel\Index.cshtml" />
     <Content Include="Views\Personel\PersonelEkle.cshtml" />
     <Content Include="Views\Personel\PersonelGetir.cshtml" />
+    <Content Include="Views\Uyeler\Index.cshtml" />
+    <Content Include="Views\Uyeler\UyeEkle.cshtml" />
+    <Content Include="Views\Uyeler\UyeGetir.cshtml" />
     <None Include="Views\Yazar\YazarGetir.cshtml" />
   </ItemGroup>
   <ItemGroup>
