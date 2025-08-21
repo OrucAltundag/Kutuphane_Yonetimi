@@ -25,6 +25,8 @@
             text-align: center;
         }
     </style>
+
+
 </head>
 <body>
     <!-- Navbar -->
@@ -37,7 +39,7 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Ana Sayfa</a>
+                        <a class="nav-link" href="/Home/Index/">Ana Sayfa</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("Index", "Kategori")">Kategoriler</a>
@@ -58,32 +60,57 @@
                     <!-- Açılır menü: İşlemler -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            İşlemler
+                            Kitap İşlemleri
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="@Url.Action("KitapAl", "Islem")">Kitap Al</a></li>
-                            <li><a class="dropdown-item" href="@Url.Action("KitapIade", "Islem")">Kitap İade</a></li>
+                            <li><a class="dropdown-item" href="/Odunc/OduncVer/">Kitap Al</a></li>
+                            <li><a class="dropdown-item" href="/Odunc/Index/">Kitap İade</a></li>
+                            <li><a class="dropdown-item" href="/Islem/Index/">İadesi Alınanlar</a>  </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            İstatistikler
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/Istatistik/Index/">Kütüphane Analizi</a></li>
+                            <li><a class="dropdown-item" href="/Istatistik/Hava/">Hava Raporu</a></li>
+                            <li><a class="dropdown-item" href="/Istatistik/LinqKart">LinqKart</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Sosyal
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/Vitrin/Index/">Vitrin</a></li>
+                            <li><a class="dropdown-item" href="/Vitrin/Galeri/">Galeri</a></li>
+                            <li><a class="dropdown-item" href="//"></a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/Kasa/Index/">Kasa</a>
+                        <a class="nav-link" href="/Duyuru/Index/">Duyurular</a>
                     </li>
+
+                    @if(User.IsInRole("A"))
+                    {
                     <li class="nav-item">
                         <a class="nav-link" href="/Ayarlar/Index/">Ayarlar</a>
                     </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" href="/Yardım/Index/">Yardım</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Çıkış</a>
+                        <a class="nav-link" href="/Panel/CikisYap/">Çıkış</a>
                     </li>
 
                 </ul>
 
-                <span class="navbar-text text-light">
-                    @DateTime.Now.ToShortDateString()
-                </span>
+               
             </div>
         </div>
     </nav>   

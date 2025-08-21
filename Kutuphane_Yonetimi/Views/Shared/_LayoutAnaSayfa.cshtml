@@ -1,0 +1,142 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kütüphane Personel Paneli</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS Dosyaları -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="~/AdminLTE/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- SOL MENÜ -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Logo -->
+            <a href="/" class="brand-link">
+                <img src="~/AdminLTE/dist/img/AdminLTELogo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">Kütüphane</span>
+            </a>
+
+            <!-- Kullanıcı Paneli -->
+            <div class="sidebar">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="~/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="Kullanıcı Resmi">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">@Session["KULLANICIADI"]</a>
+                    </div>
+                </div>
+
+                <!-- MENÜ -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+                        <li class="nav-item">
+                            <a href="/Panel/Index" class="nav-link active">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>Kontrol Paneli</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Kitap/Index" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>Kitaplar</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Uyeler/Index" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Üyeler</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Odunc/Index" class="nav-link">
+                                <i class="nav-icon fas fa-exchange-alt"></i>
+                                <p>Ödünç İşlemleri</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Duyuru/Index" class="nav-link">
+                                <i class="nav-icon fas fa-bullhorn"></i>
+                                <p>Duyurular</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Mesajlar/Index" class="nav-link">
+                                <i class="nav-icon fas fa-envelope"></i>
+                                <p>Mesajlar</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Kategori/Index" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>Kategoriler</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Yazar/Index" class="nav-link">
+                                <i class="nav-icon fas fa-pen"></i>
+                                <p>Yazarlar</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Panel/Profil" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>Profilim</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Panel/CikisYap/" class="nav-link text-danger">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>Çıkış Yap</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- ANA İÇERİK -->
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <h3 class="m-0 text-dark">📌 Kütüphane Personel Paneli</h3>
+                </div>
+            </div>
+
+            <section class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- JS Dosyaları -->
+    <script src="~/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="~/AdminLTE/dist/js/adminlte.js"></script>
+</body>
+</html>

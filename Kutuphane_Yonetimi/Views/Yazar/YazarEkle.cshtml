@@ -12,6 +12,7 @@
     <div style="margin-top:15px">
         <label>Yazar Adı</label>
         @Html.TextBoxFor(y => y.AD, new { @class = "form-control", placeholder = "Yazar Adı" })
+        @Html.ValidationMessageFor(y => y.AD, "", new { @class = "text-danger" })
     </div>
     <div style="margin-top:15px">
         <label>Yazar Soyadı</label>

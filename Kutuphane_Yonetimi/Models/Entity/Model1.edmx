@@ -15,6 +15,15 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="TBL_ADMIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KULLANICI" Type="varchar" MaxLength="20" />
+          <Property Name="SIFRE" Type="varchar" MaxLength="50" />
+          <Property Name="YETKI" Type="char" MaxLength="10" />
+        </EntityType>
         <EntityType Name="TBL_CEZALAR">
           <Key>
             <PropertyRef Name="ID" />
@@ -26,6 +35,23 @@
           <Property Name="PARA" Type="decimal" Precision="18" Scale="2" />
           <Property Name="HAREKET" Type="int" />
         </EntityType>
+        <EntityType Name="TBL_DUYURULAR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KATEGORI" Type="varchar" MaxLength="50" />
+          <Property Name="ICERIK" Type="varchar" MaxLength="500" />
+          <Property Name="TARIH" Type="datetime" />
+          <Property Name="LikeSayısı" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_HAKKIMIZDA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ACIKLAMA" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="TBL_HAREKET">
           <Key>
             <PropertyRef Name="ID" />
@@ -33,9 +59,21 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KITAP" Type="int" />
           <Property Name="UYE" Type="int" />
-          <Property Name="PERSONEL" Type="int" />
+          <Property Name="PERSONEL" Type="tinyint" />
           <Property Name="ALISTARIH" Type="smalldatetime" />
           <Property Name="IADETARIH" Type="smalldatetime" />
+          <Property Name="UyeGetirTarih" Type="smalldatetime" />
+          <Property Name="IslemDurumu" Type="bit" />
+        </EntityType>
+        <EntityType Name="TBL_ILETISIM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="50" />
+          <Property Name="MAIL" Type="varchar" MaxLength="50" />
+          <Property Name="KONU" Type="varchar" MaxLength="50" />
+          <Property Name="MESAJ" Type="varchar" MaxLength="2500" />
         </EntityType>
         <EntityType Name="TBL_KASA">
           <Key>
@@ -51,6 +89,7 @@
           </Key>
           <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AD" Type="varchar" MaxLength="20" />
+          <Property Name="DURUM" Type="bit" />
         </EntityType>
         <EntityType Name="TBL_KITAP">
           <Key>
@@ -64,6 +103,18 @@
           <Property Name="YAYINEVI" Type="varchar" MaxLength="50" />
           <Property Name="SAYFA" Type="varchar" MaxLength="5" />
           <Property Name="DURUM" Type="bit" />
+          <Property Name="KITAPRESIM" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="TBL_MESAJLAR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GONDEREN" Type="varchar" MaxLength="50" />
+          <Property Name="ALICI" Type="varchar" MaxLength="50" />
+          <Property Name="KONU" Type="varchar" MaxLength="50" />
+          <Property Name="ICERIK" Type="varchar" MaxLength="500" />
+          <Property Name="TARIH" Type="smalldatetime" />
         </EntityType>
         <EntityType Name="TBL_PERSONEL">
           <Key>
@@ -71,6 +122,9 @@
           </Key>
           <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PERSONEL" Type="varchar" MaxLength="50" />
+          <Property Name="TC" Type="varchar" MaxLength="15" />
+          <Property Name="SIFRE" Type="varchar" MaxLength="20" />
+          <Property Name="YETKI" Type="char" MaxLength="10" />
         </EntityType>
         <EntityType Name="TBL_UYELER">
           <Key>
@@ -131,6 +185,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TBL_HAREKET_TBL_PERSONEL">
+          <End Role="TBL_PERSONEL" Type="Self.TBL_PERSONEL" Multiplicity="0..1" />
+          <End Role="TBL_HAREKET" Type="Self.TBL_HAREKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_PERSONEL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_HAREKET">
+              <PropertyRef Name="PERSONEL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TBL_HAREKET_TBL_UYELER">
           <End Role="TBL_UYELER" Type="Self.TBL_UYELER" Multiplicity="0..1" />
           <End Role="TBL_HAREKET" Type="Self.TBL_HAREKET" Multiplicity="*" />
@@ -167,13 +233,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="BugununEmanetleri" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EnAktifUye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EnBasariliPersonel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EnCokOkunanKitap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EnFazlaKitapliYazar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EnIyiYayinEvi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="DBKUTUPHANEModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ADMIN" EntityType="Self.TBL_ADMIN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_CEZALAR" EntityType="Self.TBL_CEZALAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DUYURULAR" EntityType="Self.TBL_DUYURULAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_HAKKIMIZDA" EntityType="Self.TBL_HAKKIMIZDA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_HAREKET" EntityType="Self.TBL_HAREKET" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ILETISIM" EntityType="Self.TBL_ILETISIM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_KASA" EntityType="Self.TBL_KASA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_KATEGORI" EntityType="Self.TBL_KATEGORI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_KITAP" EntityType="Self.TBL_KITAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_MESAJLAR" EntityType="Self.TBL_MESAJLAR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PERSONEL" EntityType="Self.TBL_PERSONEL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_UYELER" EntityType="Self.TBL_UYELER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_YAZAR" EntityType="Self.TBL_YAZAR" Schema="dbo" store:Type="Tables" />
@@ -187,6 +294,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_TBL_HAREKET_TBL_KITAP" Association="Self.FK_TBL_HAREKET_TBL_KITAP">
             <End Role="TBL_KITAP" EntitySet="TBL_KITAP" />
+            <End Role="TBL_HAREKET" EntitySet="TBL_HAREKET" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_HAREKET_TBL_PERSONEL" Association="Self.FK_TBL_HAREKET_TBL_PERSONEL">
+            <End Role="TBL_PERSONEL" EntitySet="TBL_PERSONEL" />
             <End Role="TBL_HAREKET" EntitySet="TBL_HAREKET" />
           </AssociationSet>
           <AssociationSet Name="FK_TBL_HAREKET_TBL_UYELER" Association="Self.FK_TBL_HAREKET_TBL_UYELER">
@@ -236,12 +347,15 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="KITAP" Type="Int32" />
           <Property Name="UYE" Type="Int32" />
-          <Property Name="PERSONEL" Type="Int32" />
+          <Property Name="PERSONEL" Type="Byte" />
           <Property Name="ALISTARIH" Type="DateTime" Precision="0" />
           <Property Name="IADETARIH" Type="DateTime" Precision="0" />
           <NavigationProperty Name="TBL_CEZALAR" Relationship="Self.FK_TBL_CEZALAR_TBL_HAREKET" FromRole="TBL_HAREKET" ToRole="TBL_CEZALAR" />
           <NavigationProperty Name="TBL_KITAP" Relationship="Self.FK_TBL_HAREKET_TBL_KITAP" FromRole="TBL_HAREKET" ToRole="TBL_KITAP" />
           <NavigationProperty Name="TBL_UYELER" Relationship="Self.FK_TBL_HAREKET_TBL_UYELER" FromRole="TBL_HAREKET" ToRole="TBL_UYELER" />
+          <NavigationProperty Name="TBL_PERSONEL" Relationship="DBKUTUPHANEModel.FK_TBL_HAREKET_TBL_PERSONEL" FromRole="TBL_HAREKET" ToRole="TBL_PERSONEL" />
+          <Property Name="IslemDurumu" Type="Boolean" />
+          <Property Name="UyeGetirTarih" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="TBL_KASA">
           <Key>
@@ -258,6 +372,7 @@
           <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TBL_KITAP" Relationship="Self.FK_TBL_KITAP_TBL_KATEGORI" FromRole="TBL_KATEGORI" ToRole="TBL_KITAP" />
+          <Property Name="DURUM" Type="Boolean" />
         </EntityType>
         <EntityType Name="TBL_KITAP">
           <Key>
@@ -274,6 +389,7 @@
           <NavigationProperty Name="TBL_HAREKET" Relationship="Self.FK_TBL_HAREKET_TBL_KITAP" FromRole="TBL_KITAP" ToRole="TBL_HAREKET" />
           <NavigationProperty Name="TBL_KATEGORI" Relationship="Self.FK_TBL_KITAP_TBL_KATEGORI" FromRole="TBL_KITAP" ToRole="TBL_KATEGORI" />
           <NavigationProperty Name="TBL_YAZAR" Relationship="Self.FK_TBL_KITAP_TBL_YAZAR" FromRole="TBL_KITAP" ToRole="TBL_YAZAR" />
+          <Property Name="KITAPRESIM" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TBL_PERSONEL">
           <Key>
@@ -281,6 +397,10 @@
           </Key>
           <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PERSONEL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBL_HAREKET" Relationship="DBKUTUPHANEModel.FK_TBL_HAREKET_TBL_PERSONEL" FromRole="TBL_PERSONEL" ToRole="TBL_HAREKET" />
+          <Property Name="TC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SIFRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="YETKI" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="TBL_UYELER">
           <Key>
@@ -414,7 +534,122 @@
             <End Role="TBL_YAZAR" EntitySet="TBL_YAZAR" />
             <End Role="TBL_KITAP" EntitySet="TBL_KITAP" />
           </AssociationSet>
+          <AssociationSet Name="FK_TBL_HAREKET_TBL_PERSONEL" Association="DBKUTUPHANEModel.FK_TBL_HAREKET_TBL_PERSONEL">
+            <End Role="TBL_PERSONEL" EntitySet="TBL_PERSONEL" />
+            <End Role="TBL_HAREKET" EntitySet="TBL_HAREKET" />
+          </AssociationSet>
+          <EntitySet Name="TBL_HAKKIMIZDA" EntityType="DBKUTUPHANEModel.TBL_HAKKIMIZDA" />
+          <EntitySet Name="TBL_ILETISIM" EntityType="DBKUTUPHANEModel.TBL_ILETISIM" />
+          <FunctionImport Name="EnFazlaKitapliYazar" ReturnType="Collection(String)" />
+          <FunctionImport Name="EnIyiYayinEvi" ReturnType="Collection(String)" />
+          <FunctionImport Name="BugununEmanetleri" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="EnAktifUye" ReturnType="Collection(String)" />
+          <FunctionImport Name="EnBasariliPersonel" ReturnType="Collection(String)" />
+          <FunctionImport Name="EnCokOkunanKitap" ReturnType="Collection(String)" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(DBKUTUPHANEModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(DBKUTUPHANEModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="TBL_MESAJLAR" EntityType="DBKUTUPHANEModel.TBL_MESAJLAR" />
+          <EntitySet Name="TBL_DUYURULAR" EntityType="DBKUTUPHANEModel.TBL_DUYURULAR" />
+          <EntitySet Name="TBL_ADMIN" EntityType="DBKUTUPHANEModel.TBL_ADMIN" />
         </EntityContainer>
+        <Association Name="FK_TBL_HAREKET_TBL_PERSONEL">
+          <End Type="DBKUTUPHANEModel.TBL_PERSONEL" Role="TBL_PERSONEL" Multiplicity="0..1" />
+          <End Type="DBKUTUPHANEModel.TBL_HAREKET" Role="TBL_HAREKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_PERSONEL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_HAREKET">
+              <PropertyRef Name="PERSONEL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TBL_HAKKIMIZDA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ACIKLAMA" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_ILETISIM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KONU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MESAJ" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="TBL_MESAJLAR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GONDEREN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ALICI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KONU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ICERIK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TARIH" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="TBL_DUYURULAR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KATEGORI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ICERIK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TARIH" Type="DateTime" Precision="3" />
+          <Property Name="LikeSayısı" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_ADMIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KULLANICI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SIFRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="YETKI" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -447,6 +682,8 @@
           <EntitySetMapping Name="TBL_HAREKET">
             <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_HAREKET">
               <MappingFragment StoreEntitySet="TBL_HAREKET">
+                <ScalarProperty Name="UyeGetirTarih" ColumnName="UyeGetirTarih" />
+                <ScalarProperty Name="IslemDurumu" ColumnName="IslemDurumu" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="KITAP" ColumnName="KITAP" />
                 <ScalarProperty Name="UYE" ColumnName="UYE" />
@@ -468,6 +705,7 @@
           <EntitySetMapping Name="TBL_KATEGORI">
             <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_KATEGORI">
               <MappingFragment StoreEntitySet="TBL_KATEGORI">
+                <ScalarProperty Name="DURUM" ColumnName="DURUM" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AD" ColumnName="AD" />
               </MappingFragment>
@@ -476,6 +714,7 @@
           <EntitySetMapping Name="TBL_KITAP">
             <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_KITAP">
               <MappingFragment StoreEntitySet="TBL_KITAP">
+                <ScalarProperty Name="KITAPRESIM" ColumnName="KITAPRESIM" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AD" ColumnName="AD" />
                 <ScalarProperty Name="KATEGORI" ColumnName="KATEGORI" />
@@ -490,6 +729,9 @@
           <EntitySetMapping Name="TBL_PERSONEL">
             <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_PERSONEL">
               <MappingFragment StoreEntitySet="TBL_PERSONEL">
+                <ScalarProperty Name="YETKI" ColumnName="YETKI" />
+                <ScalarProperty Name="SIFRE" ColumnName="SIFRE" />
+                <ScalarProperty Name="TC" ColumnName="TC" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PERSONEL" ColumnName="PERSONEL" />
               </MappingFragment>
@@ -520,6 +762,88 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TBL_HAKKIMIZDA">
+            <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_HAKKIMIZDA">
+              <MappingFragment StoreEntitySet="TBL_HAKKIMIZDA">
+                <ScalarProperty Name="ACIKLAMA" ColumnName="ACIKLAMA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ILETISIM">
+            <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_ILETISIM">
+              <MappingFragment StoreEntitySet="TBL_ILETISIM">
+                <ScalarProperty Name="MESAJ" ColumnName="MESAJ" />
+                <ScalarProperty Name="KONU" ColumnName="KONU" />
+                <ScalarProperty Name="MAIL" ColumnName="MAIL" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="EnFazlaKitapliYazar" FunctionName="DBKUTUPHANEModel.Store.EnFazlaKitapliYazar" />
+          <FunctionImportMapping FunctionImportName="EnIyiYayinEvi" FunctionName="DBKUTUPHANEModel.Store.EnIyiYayinEvi" />
+          <FunctionImportMapping FunctionImportName="BugununEmanetleri" FunctionName="DBKUTUPHANEModel.Store.BugununEmanetleri" />
+          <FunctionImportMapping FunctionImportName="EnAktifUye" FunctionName="DBKUTUPHANEModel.Store.EnAktifUye" />
+          <FunctionImportMapping FunctionImportName="EnBasariliPersonel" FunctionName="DBKUTUPHANEModel.Store.EnBasariliPersonel" />
+          <FunctionImportMapping FunctionImportName="EnCokOkunanKitap" FunctionName="DBKUTUPHANEModel.Store.EnCokOkunanKitap" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="DBKUTUPHANEModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="DBKUTUPHANEModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="DBKUTUPHANEModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="DBKUTUPHANEModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBKUTUPHANEModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="DBKUTUPHANEModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBKUTUPHANEModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DBKUTUPHANEModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DBKUTUPHANEModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="TBL_MESAJLAR">
+            <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_MESAJLAR">
+              <MappingFragment StoreEntitySet="TBL_MESAJLAR">
+                <ScalarProperty Name="TARIH" ColumnName="TARIH" />
+                <ScalarProperty Name="ICERIK" ColumnName="ICERIK" />
+                <ScalarProperty Name="KONU" ColumnName="KONU" />
+                <ScalarProperty Name="ALICI" ColumnName="ALICI" />
+                <ScalarProperty Name="GONDEREN" ColumnName="GONDEREN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DUYURULAR">
+            <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_DUYURULAR">
+              <MappingFragment StoreEntitySet="TBL_DUYURULAR">
+                <ScalarProperty Name="LikeSayısı" ColumnName="LikeSayısı" />
+                <ScalarProperty Name="TARIH" ColumnName="TARIH" />
+                <ScalarProperty Name="ICERIK" ColumnName="ICERIK" />
+                <ScalarProperty Name="KATEGORI" ColumnName="KATEGORI" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ADMIN">
+            <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_ADMIN">
+              <MappingFragment StoreEntitySet="TBL_ADMIN">
+                <ScalarProperty Name="YETKI" ColumnName="YETKI" />
+                <ScalarProperty Name="SIFRE" ColumnName="SIFRE" />
+                <ScalarProperty Name="KULLANICI" ColumnName="KULLANICI" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -534,7 +858,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

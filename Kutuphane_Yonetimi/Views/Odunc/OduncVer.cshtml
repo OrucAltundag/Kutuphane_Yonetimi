@@ -1,0 +1,110 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_HAREKET
+@{
+    ViewBag.Title = "OduncVer";
+}
+
+<h2>Kitap Ödünç Ver</h2>
+
+@using (Html.BeginForm("OduncVer", "Odunc", FormMethod.Post, new { @class = "form-group" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<div class="input-group">
+    @Html.TextBoxFor(y => y.UYE, new { @class = "form-control", id = "UYE", @readonly = "readonly" })
+    <button type="button"
+            onclick="window.location.href='/Uyeler/Index?secim=uye&kitapId=@ViewBag.SecilenKitapId&kitapAd=@ViewBag.SecilenKitapAd'"
+            class="btn btn-outline-primary">
+        Üye Seç
+    </button>
+
+</div>
+    <small id="uyeAdSoyad" class="text-muted"></small>
+
+    <br />
+    <div class="input-group">
+        @Html.TextBoxFor(y => y.KITAP, new { @class = "form-control", id = "KITAP", @readonly = "readonly" })
+        <button type="button"
+                onclick="window.location.href='/Kitap/Index?secim=kitap&uyeId=@ViewBag.SecilenUyeId&uyeAd=@ViewBag.SecilenUyeAd'"
+                class="btn btn-outline-success">
+            Kitap Seç
+        </button>
+
+    </div>
+    <small id="kitapAdi" class="text-muted"></small>
+
+    
+
+
+
+    <div class="mb-3">
+        <label>Personel Id</label>
+        @Html.DropDownListFor(y => y.TBL_PERSONEL.ID,(List<SelectListItem>)ViewBag.dgr1,  new { @class = "form-control" })
+    </div>
+
+    <div class="mb-3">
+        <label>Kitap Alış Tarihi</label>
+        <input type="date" id="ALISTARIH" name="ALISTARIH"
+               class="form-control"
+               value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
+
+    </div>
+
+    <div class="mb-3">
+        <label>İade Tarihi</label>
+        <select id="iadeGunSec" class="form-control">
+            <option value="">Seçiniz</option>
+            <option value="10">10 Gün</option>
+            <option value="15">15 Gün</option>
+            <option value="20">20 Gün</option>
+            <option value="25">25 Gün</option>
+            <option value="30">30 Gün</option>
+        </select>
+        @Html.TextBoxFor(y => y.IADETARIH, new { @class = "form-control mt-2", @readonly = "readonly", placeholder = "Seçilen iade tarihi" })
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Kitap Ödünç Ver</button>
+        <input type="hidden" name="IslemDurumu" value="False" />
+    </div>
+}
+
+<script>
+    // iade tarihini otomatik hesaplama
+    document.getElementById("iadeGunSec").addEventListener("change", function () {
+        let gun = parseInt(this.value);
+        let alisTarihInput = document.getElementById("ALISTARIH");
+        let iadeTarihInput = document.getElementById("IADETARIH");
+
+        if (gun && alisTarihInput.value) {
+            let alisTarih = new Date(alisTarihInput.value);
+            alisTarih.setDate(alisTarih.getDate() + gun);
+
+            let year = alisTarih.getFullYear();
+            let month = String(alisTarih.getMonth() + 1).padStart(2, '0');
+            let day = String(alisTarih.getDate()).padStart(2, '0');
+
+            iadeTarihInput.value = `${year}-${month}-${day}`;
+        } else {
+            iadeTarihInput.value = "";
+        }
+    });
+</script>
+
+<script>
+    window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.has("kitapId")) {
+            document.getElementById("KITAP").value = params.get("kitapId");
+            document.getElementById("kitapAdi").innerText = params.get("kitapAd");
+        }
+
+        if (params.has("uyeId")) {
+            document.getElementById("UYE").value = params.get("uyeId");
+            document.getElementById("uyeAdSoyad").innerText = params.get("uyeAd");
+        }
+    };
+</script>
+

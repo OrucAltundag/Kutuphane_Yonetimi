@@ -14,8 +14,9 @@
 @using (Html.BeginForm("PersonelEkle", "Personel", FormMethod.Post))
 {
     <div class="form-group">
-        @Html.LabelFor(m => m.AD)
-        @Html.TextBoxFor(m => m.AD, new { @class = "form-control" })
+        <label for="PERSONEL">Personel Adı ve Soyadı</label>
+        @Html.TextBoxFor(m => m.PERSONEL, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PERSONEL, "", new { @class = "text-danger" , required = "required" })
     </div>
     <br />
     <button type="submit" class="btn btn-primary">Kaydet</button>

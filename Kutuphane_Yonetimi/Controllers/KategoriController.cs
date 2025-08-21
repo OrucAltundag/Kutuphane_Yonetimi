@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Kutuphane_Yonetimi.Models.Entity;
 namespace Kutuphane_Yonetimi.Controllers
 {
+    
     public class KategoriController : Controller
     {
         
@@ -13,7 +14,7 @@ namespace Kutuphane_Yonetimi.Controllers
         // GET: Kategori
         public ActionResult Index()
         {
-            var degerler = db.TBL_KATEGORI.ToList(); // TBL_KATEGORI tablosundaki tüm verileri listele
+            var degerler = db.TBL_KATEGORI.Where(x =>x.DURUM==true).ToList(); // TBL_KATEGORI tablosundaki tüm verileri listele
             return View(degerler);                   // Verileri View'a gönder
         }
         [HttpGet] // Kategori ekleme sayfasını görüntülemek için
@@ -24,6 +25,7 @@ namespace Kutuphane_Yonetimi.Controllers
         [HttpPost] // Kategori ekleme işlemi için
         public ActionResult KategoriEkle(TBL_KATEGORI p)
         {
+            p.DURUM = true;
             db.TBL_KATEGORI.Add(p); // Yeni kategori ekle
             db.SaveChanges();        // Değişiklikleri kaydet
             return View();    //RedirectToAction("Index"); // Ekleme işleminden sonra Index sayfasına yönlendir
@@ -32,7 +34,8 @@ namespace Kutuphane_Yonetimi.Controllers
         public ActionResult KategoriSil(int id)
         {
             var ktg = db.TBL_KATEGORI.Find(id); // Silinecek kategoriyi bul
-            db.TBL_KATEGORI.Remove(ktg);         // Kategoriyi sil
+            //db.TBL_KATEGORI.Remove(ktg);         // Kategoriyi sil
+            ktg.DURUM = false;          // Kategoriyi silmek yerine durumunu false yap
             db.SaveChanges();                    // Değişiklikleri kaydet
             return RedirectToAction("Index");    // Silme işleminden sonra Index sayfasına yönlendir
         }

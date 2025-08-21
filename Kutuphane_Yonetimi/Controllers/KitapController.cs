@@ -7,12 +7,20 @@ using Kutuphane_Yonetimi.Models.Entity;
 
 namespace Kutuphane_Yonetimi.Controllers
 {
+    
     public class KitapController : Controller
     {
         DBKUTUPHANEEntities db = new DBKUTUPHANEEntities();
         // GET: Kitap
-        public ActionResult Index()
+        public ActionResult Index(string secim, int? kitapId, string kitapAd, int? uyeId, string uyeAd)
         {
+            ViewBag.SecimModu = secim; // "kitap" gelirse view'da kontrol edeceğiz
+
+            ViewBag.SecilenKitapId = kitapId;
+            ViewBag.SecilenKitapAd = kitapAd;
+            ViewBag.SecilenUyeId = uyeId;
+            ViewBag.SecilenUyeAd = uyeAd;
+
             var kitaplar = db.TBL_KITAP.ToList();
             return View(kitaplar);
         }

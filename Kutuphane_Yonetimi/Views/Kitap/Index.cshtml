@@ -35,16 +35,45 @@
         <tr>
             <td>@item.ID</td>
             <td>@item.AD</td>
-            <td>@item.TBL_YAZAR.AD @item.TBL_YAZAR.SOYAD</td>
-            <td>@item.TBL_KATEGORI.AD</td>
+            <td>
+                @(item.TBL_YAZAR != null
+        ? item.TBL_YAZAR.AD + " " + item.TBL_YAZAR.SOYAD
+        : "—")
+            </td>
+            <td>
+                @(item.TBL_KATEGORI != null
+        ? item.TBL_KATEGORI.AD
+        : "—")
+            </td>
+
             <td>@item.BASIMYIL</td>
             <td>@item.YAYINEVI</td>
             <td>@item.SAYFA</td>
             <td>@item.DURUM</td>  @*<td>@(item.DURUM ? "Mevcut" : "Ödünç Alınmış")</td>*@
-            <td>
-                <a class="btn btn-primary" href="/Kitap/KitapGetir/@item.ID">Düzenle</a>
-                <a class="btn btn-danger" href="/Kitap/KitapSil/@item.ID">Sil</a>
-            </td>
+        <td>
+            @if (ViewBag.SecimModu == "kitap")
+            {
+                if (@item.DURUM==true) { 
+                <a class="btn btn-success btn-sm"
+                   href="@Url.Action("OduncVer", "Odunc", new {
+                        kitapId = item.ID,
+                        kitapAd = item.AD,
+                        uyeId = ViewBag.SecilenUyeId,
+                        uyeAd = ViewBag.SecilenUyeAd
+                    })">
+                    Seç
+                </a>
+                }
+
+
+
+            }
+            else
+            {
+                <a class="btn btn-primary btn-sm" href="/Kitap/KitapGetir/@item.ID">Düzenle</a>
+                <a class="btn btn-danger btn-sm" href="/Kitap/KitapSil/@item.ID">Sil</a>
+            }
+        </td>
 
         </tr>
     }

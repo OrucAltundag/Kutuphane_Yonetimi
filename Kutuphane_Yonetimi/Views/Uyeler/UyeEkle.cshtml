@@ -1,0 +1,82 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_UYELER
+@{
+    ViewBag.Title = "UyeEkle";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>UyeEkle</h2>
+
+
+@using (Html.BeginForm("UyeEkle", "Uyeler", FormMethod.Post, new { @class = "form-group" }))
+{
+    @Html.AntiForgeryToken()
+    @* CSRF saldırılarına karşı koruma *@
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @* ModelState hatalarını sayfa başında özet olarak gösterir *@
+
+    <div class="mb-3">
+        <label for="AD">Üye Adı</label>
+        @Html.TextBoxFor(y => y.AD, new { @class = "form-control", placeholder = "Uye Adı" })
+        @Html.ValidationMessageFor(y => y.AD, "", new { @class = "text-danger" })
+        @* Zorunluysa modelde [Required] kullan *@
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Üye Soyadı</label>
+        @Html.TextBoxFor(y => y.SOYAD, new { @class = "form-control", placeholder = "Uye Soyadı" })
+        @Html.ValidationMessageFor(y => y.SOYAD, "", new { @class = "text-danger" })
+        @* Zorunluysa modelde [Required] kullan *@
+    </div>
+
+    <div style="margin-top:15px">
+        <label>MAIL</label>
+        @Html.TextBoxFor(y => y.MAIL, new { @class = "form-control", placeholder = "Mail" })
+
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Kullanıcı Adı</label>
+        @Html.TextBoxFor(y => y.KULLANICIADI, new
+        {
+            @class = "form-control",
+
+        })
+        @Html.ValidationMessageFor(y => y.KULLANICIADI, "", new { @class = "text-danger", placeholder = "Kullanıcı Adı" })
+
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Şifre</label>
+        @Html.TextBoxFor(y => y.SIFRE, new { @class = "form-control", placeholder = "Şifre" })
+        @Html.ValidationMessageFor(y => y.SIFRE, "", new { @class = "text-danger" })
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Fotograf</label>
+        @Html.TextBoxFor(y => y.FOTOGRAF, new { @class = "form-control", placeholder = "örn.png" })
+
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Telefon</label>
+        @Html.TextBoxFor(y => y.TELEFON, new { @class = "form-control", placeholder = "Telefon" })
+        @Html.ValidationMessageFor(y => y.TELEFON, "", new { @class = "text-danger" })
+        @* Zorunluysa modelde [Required] kullan *@
+
+    </div>
+
+    <div style="margin-top:15px">
+        <label>Okul</label>
+        @Html.TextBoxFor(y => y.OKUL, new { @class = "form-control", placeholder = "okul" })
+
+    </div>
+
+    <div style="margin-top:15px">
+        <button type="submit" class="btn btn-primary">Üye Ekle</button>
+    </div>
+
+
+
+}
+

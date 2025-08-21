@@ -1,0 +1,43 @@
+﻿@using Kutuphane_Yonetimi.Models.Entity
+@model List<TBL_DUYURULAR>
+
+@foreach (var item in Model)
+{
+    <div class="post">
+
+        <div class="user-block">
+            <img class="img-circle img-bordered-sm"
+                 src="@Url.Content("~/AdminLTE/dist/img/4.png")"
+                 alt="user image"
+                 style="width:30px; height:30px;">
+
+            <span class="username" style="font-weight:bold; font-size:18px; display:block;">
+                @item.KATEGORI
+            </span>
+
+            <span class="description">
+                @String.Format("{0:dd.MM.yyyy}", item.TARIH)
+            </span>
+        </div>
+
+        <p id="icerik-@item.ID">
+            @item.ICERIK
+        </p>
+
+        <p>
+            <!-- Kopyala butonu -->
+            <a href="javascript:void(0);"
+               class="link-black text-sm mr-2 copy-btn"
+               data-target="icerik-@item.ID">
+                <i class="fas fa-copy mr-1"></i> Kopyala
+            </a>
+
+            <!-- Beğeni butonu -->
+            <a href="@Url.Action("LikeDuyuru", "Panel", new { id = item.ID })" class="link-black text-sm">
+                <i class="far fa-thumbs-up mr-1"></i> Beğen (@(item.LikeSayısı ?? 0))
+            </a>
+        </p>
+
+        <br />
+    </div>
+}

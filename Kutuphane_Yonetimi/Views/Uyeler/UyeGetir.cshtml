@@ -1,0 +1,63 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_UYELER
+@{
+    ViewBag.Title = "UyeGetir";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+
+
+<h2>Üye Bilgilerini Güncelle</h2>
+
+@using (Html.BeginForm("UyeGuncelle", "Uyeler", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ID)
+
+    <div class="mb-3">
+        <label>Ad</label>
+        @Html.TextBoxFor(m => m.AD, new { @class = "form-control", placeholder = "Üye Adı" })
+        @Html.ValidationMessageFor(m => m.AD, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label>Soyad</label>
+        @Html.TextBoxFor(m => m.SOYAD, new { @class = "form-control", placeholder = "Üye Soyadı" })
+        @Html.ValidationMessageFor(m => m.SOYAD, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label>E-posta</label>
+        @Html.TextBoxFor(m => m.MAIL, new { @class = "form-control", type = "email", placeholder = "E-posta" })
+    </div>
+
+    <div class="mb-3">
+        <label>Kullanıcı Adı</label>
+        @Html.TextBoxFor(m => m.KULLANICIADI, new { @class = "form-control", placeholder = "Kullanıcı Adı" })
+    </div>
+
+    <div class="mb-3">
+        <label>Şifre</label>
+        @Html.TextBoxFor(m => m.SIFRE, new { @class = "form-control", type = "password", placeholder = "Şifre" })
+    </div>
+
+    <div class="mb-3">
+        <label>Fotoğraf</label>
+        @Html.TextBoxFor(m => m.FOTOGRAF, new { @class = "form-control", placeholder = "Fotoğraf URL" })
+    </div>
+
+    <div class="mb-3">
+        <label>Telefon</label>
+        @Html.TextBoxFor(m => m.TELEFON, new { @class = "form-control", type = "tel", placeholder = "Telefon Numarası" })
+    </div>
+
+    <div class="mb-3">
+        <label>Okul</label>
+        @Html.TextBoxFor(m => m.OKUL, new { @class = "form-control", placeholder = "Okul Adı" })
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a href="/Uyeler/Index" class="btn btn-secondary">İptal</a>
+}
+
+

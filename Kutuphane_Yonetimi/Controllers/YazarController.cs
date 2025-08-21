@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Kutuphane_Yonetimi.Models.Entity;
 namespace Kutuphane_Yonetimi.Controllers
 {
+    
     public class YazarController : Controller
     {
         // GET: Yazar
@@ -25,6 +26,10 @@ namespace Kutuphane_Yonetimi.Controllers
         [HttpPost]
         public ActionResult YazarEkle(TBL_YAZAR p)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("YazarEkle");
+            }
             db.TBL_YAZAR.Add(p);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -51,6 +56,15 @@ namespace Kutuphane_Yonetimi.Controllers
             yazar.DETAY = p.DETAY;
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult YazarKitaplar(int id)
+        {
+            var yazar = db.TBL_YAZAR.Find(id);
+            var yzrAdSoyad = yazar.AD + " " + yazar.SOYAD;
+            ViewBag.YazarAdSoyad = yzrAdSoyad;
+            var degerler = db.TBL_KITAP.Where(x=>x.YAZAR==yazar.ID).ToList();
+            return View(degerler);
         }
     }
 }

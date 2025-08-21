@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Galeri";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📸 Kütüphanemizden Fotoğraflar</h2>
+
+    @if (ViewBag.Resimler != null && ((List<string>)ViewBag.Resimler).Count > 0)
+    {
+        <div id="myCarousel" class="carousel slide shadow-lg rounded mx-auto" data-bs-ride="carousel" style="max-width:800px;">
+            <!-- Indicators -->
+            <div class="carousel-indicators">
+                @{
+                    int j = 0;
+                    foreach (var _ in ViewBag.Resimler)
+                    {
+                        var activeClass = j == 0 ? "active" : "";
+                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="@j" class="@activeClass"></button>;
+                        j++;
+                    }
+                }
+            </div>
+
+            <!-- Slides -->
+            <div class="carousel-inner rounded" style="height:400px;">
+                @{
+                    int i = 0;
+                    foreach (var resim in ViewBag.Resimler)
+                    {
+                        var aktif = i == 0 ? "active" : "";
+                        <div class="carousel-item @aktif">
+                            <img src="~/web2/resimler/@resim"
+                                 class="d-block w-100 h-100"
+                                 style="object-fit:cover;"
+                                 alt="Fotoğraf @i" />
+                        </div>
+                        i++;
+                    }
+                }
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Önceki</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Sonraki</span>
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">
+            📂 Henüz hiç resim yüklenmemiş.
+        </div>
+    }
+</div>
+
+<!-- Altına resim yükleme -->
+<div class="container mt-5" style="max-width:800px;">
+    @using (Html.BeginForm("ResimYukle", "Vitrin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="mb-3">
+            <input type="file" name="dosya" id="dosya" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-warning">Kaydet</button>
+    }
+</div>
+
+@if (TempData["Uyari"] != null)
+{
+    <div class="container mt-3" style="max-width:800px;">
+        <div class="alert alert-info">
+            @TempData["Uyari"]
+        </div>
+    </div>
+}

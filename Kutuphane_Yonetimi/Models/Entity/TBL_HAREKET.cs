@@ -23,13 +23,16 @@ namespace Kutuphane_Yonetimi.Models.Entity
         public int ID { get; set; }
         public Nullable<int> KITAP { get; set; }
         public Nullable<int> UYE { get; set; }
-        public Nullable<int> PERSONEL { get; set; }
+        public Nullable<byte> PERSONEL { get; set; }
         public Nullable<System.DateTime> ALISTARIH { get; set; }
         public Nullable<System.DateTime> IADETARIH { get; set; }
+        public Nullable<bool> IslemDurumu { get; set; }
+        public Nullable<System.DateTime> UyeGetirTarih { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_CEZALAR> TBL_CEZALAR { get; set; }
         public virtual TBL_KITAP TBL_KITAP { get; set; }
         public virtual TBL_UYELER TBL_UYELER { get; set; }
+        public virtual TBL_PERSONEL TBL_PERSONEL { get; set; }
     }
 }

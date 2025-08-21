@@ -1,0 +1,107 @@
+﻿@using Kutuphane_Yonetimi.Models.Entity
+@{
+    ViewBag.Title = "Üyeler";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+        <h4 class="mb-0">📋 Üyeler</h4>
+        <div class="d-flex">
+            <input type="text" id="searchBox" class="form-control me-2" placeholder="Üye Ara..." />
+            <a href="/Uyeler/UyeEkle/" class="btn btn-light">
+                <i class="bi bi-plus-circle"></i> Yeni Üye Ekle
+            </a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+            <table id="UyelerTable" class="table table-hover align-middle mb-0">
+                <thead class="table-light sticky-top">
+                    <tr>
+                        <th style="width:60px;">ID</th>
+                        <th style="width:120px;">Üye Adı</th>
+                        <th style="width:120px;">Soyadı</th>
+                        <th style="width: 220px; text-align: center">Mail</th>
+                        @*<th style="width:180px;">Kullanıcı Adı</th>
+                            <th style="width:100px;">Şifre</th>*@
+                        @*<th style="width:150px;">Fotoğraf</th>*@
+                        @*<th style="width:150px;">Telefon</th>*@
+                        <th style="width:220px; text-align:center">Okul</th>
+                        <th style="width: 160px; text-align: center" class="text-center">Kitap Geçmişi</th>
+                        <th style="width: 160px; text-align: center" class="text-center">İşlemler</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ID</td>
+                            <td>@item.AD</td>
+                            <td>@item.SOYAD</td>
+                            <td>@item.MAIL</td>
+                            @*<td>@item.KULLANICIADI</td>
+                                <td>@item.SIFRE</td>*@
+                            @*<td>
+                                @if (!string.IsNullOrEmpty(item.FOTOGRAF))
+                                {
+                                    <img src="~/Content/Images/@item.FOTOGRAF" alt="Fotoğraf" class="rounded-circle" width="40" height="40" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Yok</span>
+                                }
+                            </td>*@
+                            @*<td>@item.TELEFON</td>*@
+                            <td>@item.OKUL</td>
+
+                            <td>
+                                <a class="btn btn-sm btn-outline-dark" style="width:240px; text-align:center" href="/Uyeler/UyeKitapGecmis/@item.ID">
+                                     Kitap Geçmişi
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                @if (ViewBag.SecimModu == "uye")
+                                {
+                                    <a class="btn btn-success btn-sm"
+                                       href="@Url.Action("OduncVer", "Odunc", new {
+                                       uyeId = item.ID,
+                                       uyeAd = item.AD + " " + item.SOYAD,
+                                       kitapId = ViewBag.SecilenKitapId,
+                                       kitapAd = ViewBag.SecilenKitapAd
+                                                 })">
+                                        Seç
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-sm btn-outline-primary me-1" href="/Uyeler/UyeGetir/@item.ID">
+                                        <i class="bi bi-pencil-square"></i> Düzenle
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-danger" href="/Uyeler/UyeSil/@item.ID">
+                                        <i class="bi bi-trash"></i> Sil
+                                    </a>
+                                }
+
+                            </td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Arama kutusu - tüm hücrelerde arar
+    document.getElementById('searchBox').addEventListener('keyup', function () {
+        let filter = this.value.toLowerCase();
+        document.querySelectorAll('#UyelerTable tbody tr').forEach(row => {
+            let text = row.textContent.toLowerCase();
+            row.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
+</script>

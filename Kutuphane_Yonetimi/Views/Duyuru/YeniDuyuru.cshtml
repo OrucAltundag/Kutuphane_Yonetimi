@@ -1,0 +1,41 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_DUYURULAR
+@{
+    ViewBag.Title = "YeniDuyuru";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>YeniDuyuru</h2>
+
+
+
+@using (Html.BeginForm("YeniDuyuru", "Duyuru", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="DuyuruKategori">Kategori</label>
+        @Html.DropDownListFor(m => m.KATEGORI, new List<SelectListItem>
+        {
+            new SelectListItem { Text = "Genel", Value = "Genel" },
+            new SelectListItem { Text = "Etkinlik", Value = "Etkinlik" },
+            new SelectListItem { Text = "Kütüphane", Value = "Kütüphane" },
+            new SelectListItem { Text = "Eğitim", Value = "Eğitim" },
+            new SelectListItem { Text = "Duyuru", Value = "Duyuru" },
+            new SelectListItem { Text = "Kampanya", Value = "Kampanya" },
+            new SelectListItem { Text = "Personel", Value = "Personel" },
+            new SelectListItem { Text = "Öğrenci", Value = "Öğrenci" },
+            new SelectListItem { Text = "Diğer", Value = "Diğer" }
+        }, "Kategori Seçiniz", new { @class = "form-control" })
+    </div>
+
+    <br />
+    <div class="form-group">
+        <label for="Duyuru">Duyuru İçeriği</label>
+        @Html.TextBoxFor(m => m.ICERIK, new { @class = "form-control" })
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="Duyuru">Duyuru Tarihi</label>
+        @Html.TextBoxFor(m => m.TARIH, new { @class = "form-control", type = "date" })
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+}

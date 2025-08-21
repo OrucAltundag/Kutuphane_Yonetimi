@@ -1,0 +1,187 @@
+﻿@if (TempData["SifreHata"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        <i class="fas fa-exclamation-circle"></i> @TempData["SifreHata"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData["SifreBasari"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        <i class="fas fa-check-circle"></i> @TempData["SifreBasari"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+
+
+
+@using Kutuphane_Yonetimi.Models.Entity
+@model List<TBL_DUYURULAR>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+
+<body class="hold-transition sidebar-mini">
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2"></div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="@ViewBag.Resim"
+                                     alt="User profile picture">
+                            </div>
+                            <h3 class="profile-username text-center">@ViewBag.AdSoyad</h3>
+                            <p class="text-muted text-center">Kütüphane Üyesi</p>
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Okunan Kitap Sayısı:</b> <a class="float-right">@ViewBag.KitapSayisi</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>En Çok Okuduğu Tür:</b> <a class="float-right">@ViewBag.Tur</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>En Çok Okuduğu Yazar:</b> <a class="float-right">@ViewBag.Yazar</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Toplam Ceza:</b> <a class="float-right">@ViewBag.Ceza</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Hakkımda</h3>
+                        </div>
+                        <div class="card-body">
+                            <strong><i class="fas fa-book mr-1"></i> Okul</strong>
+                            <p class="text-muted">@ViewBag.Okul</p>
+                            <hr>
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Telefon</strong>
+                            <p class="text-muted">@ViewBag.Tel</p>
+                            <hr>
+                            <strong><i class="fas fa-pencil-alt mr-1"></i> Mail</strong>
+                            <p class="text-muted">@ViewBag.Mail</p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Duyurular</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ayarlar</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="activity">
+                                    @Html.Partial("Partial1")
+                                </div>
+
+                                <div class="tab-pane" id="settings">
+                                    @Html.Action("PartialAyarlar", "Panel")
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <aside class="control-sidebar control-sidebar-dark"></aside>
+
+  
+</body>
+
+
+
+<script>
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.toggle-password');
+        if (!btn) return;
+
+        const targetSelector = btn.dataset.target;
+        if (!targetSelector) return;
+
+        const input = document.querySelector(targetSelector);
+        if (!input) return;
+
+        // tip değiştir
+        input.type = (input.type === 'password') ? 'text' : 'password';
+
+        // ikon değiştir (Font Awesome varsa)
+        const icon = btn.querySelector('i');
+        if (icon) {
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+
+    });
+
+
+    document.addEventListener("click", function (e) {
+        const btn = e.target.closest(".copy-btn");
+        if (!btn) return;
+
+        // hangi içeriği kopyalayacağımızı al
+        const targetId = btn.getAttribute("data-target");
+        const content = document.getElementById(targetId);
+
+        if (content) {
+            // geçici bir textarea oluştur
+            const tempInput = document.createElement("textarea");
+            tempInput.value = content.innerText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            // kullanıcıya bilgi ver
+            btn.innerHTML = '<i class="fas fa-check mr-1"></i> Kopyalandı';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-copy mr-1"></i> Kopyala';
+            }, 2000);
+        }
+    });
+
+</script>
+
+<script>
+  (function () {
+    var hata = '@(TempData["SifreHata"] ?? "")';
+    var basari = '@(TempData["SifreBasari"] ?? "")';
+    if (hata || basari) {
+      $('#sifreModal').modal('show');
+    }
+  })();
+</script>

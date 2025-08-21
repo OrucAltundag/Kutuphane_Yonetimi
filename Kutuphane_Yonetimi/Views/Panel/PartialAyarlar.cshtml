@@ -1,0 +1,116 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_UYELER
+
+
+@using (Html.BeginForm("Index2", "Panel", FormMethod.Post))
+{
+    <form class="form-horizontal">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Ad</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.AD, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Soyad</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.SOYAD, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Kullanıcı Adı</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.KULLANICIADI, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Şifre</label>
+            <div class="col-sm-8">
+                <input type="password" class="form-control" value="********" readonly />
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#sifreModal">
+                    Şifre Güncelle
+                </button>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Fotoğraf</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.FOTOGRAF, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Okul</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.OKUL, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <button type="submit" class="btn btn-danger">Güncelle</button>
+            </div>
+        </div>
+    </form>
+}
+
+<div class="modal fade" id="sifreModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">Şifre Güncelle</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("SifreGuncelle", "Panel", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <label>Eski Şifre</label>
+                        <div class="input-group">
+                            <input type="password" name="EskiSifre" class="form-control" id="EskiSifre" required />
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#EskiSifre">
+                                    👁
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Yeni Şifre</label>
+                        <div class="input-group">
+                            <input type="password" name="YeniSifre" class="form-control" id="YeniSifre" required />
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#YeniSifre">
+                                    👁
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Yeni Şifre (Tekrar)</label>
+                        <div class="input-group">
+                            <input type="password" name="YeniSifreTekrar" class="form-control" id="YeniSifreTekrar" required />
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#YeniSifreTekrar">
+                                    👁
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">Güncelle</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
