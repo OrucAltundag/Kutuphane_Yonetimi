@@ -26,6 +26,9 @@
         <EntityTypeShape EntityType="DBKUTUPHANEModel.TBL_MESAJLAR" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="DBKUTUPHANEModel.TBL_DUYURULAR" Width="1.5" PointX="10.375" PointY="3.75" />
         <EntityTypeShape EntityType="DBKUTUPHANEModel.TBL_ADMIN" Width="1.5" PointX="3.25" PointY="9.75" />
+        <EntityTypeShape EntityType="DBKUTUPHANEModel.TBL_DUYURU_YORUM" Width="1.5" PointX="12.625" PointY="5.75" />
+        <AssociationConnector Association="DBKUTUPHANEModel.FK_DuyuruYorum_Duyuru" />
+        <AssociationConnector Association="DBKUTUPHANEModel.FK_DuyuruYorum_Uye" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

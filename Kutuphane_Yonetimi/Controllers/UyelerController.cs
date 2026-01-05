@@ -74,15 +74,24 @@ namespace Kutuphane_Yonetimi.Controllers
         {
 
 
+            // Önce Validasyon kontrolü (Form kurallara uygun mu?)
+            if (!ModelState.IsValid)
+            {
+                return View("UyeGetir", p); // Hata varsa sayfayı geri döndür
+            }
+
             var uye = db.TBL_UYELER.Find(p.ID);
+
+            // Verileri güncelle
             uye.AD = p.AD;
             uye.SOYAD = p.SOYAD;
             uye.MAIL = p.MAIL;
             uye.KULLANICIADI = p.KULLANICIADI;
-            uye.SIFRE = p.SIFRE;
-            uye.FOTOGRAF = p.FOTOGRAF;  
-            uye.TELEFON = p.TELEFON;    
-            uye.OKUL= p.OKUL;
+            uye.FOTOGRAF = p.FOTOGRAF;
+            uye.TELEFON = p.TELEFON;
+            uye.OKUL = p.OKUL;
+
+            
 
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -95,5 +104,7 @@ namespace Kutuphane_Yonetimi.Controllers
             var kitaplar = db.TBL_HAREKET.Where(x => x.UYE == id).ToList();
             return View(kitaplar);
         }
+
+
     }
 }

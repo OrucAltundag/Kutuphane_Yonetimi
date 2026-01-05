@@ -19,6 +19,7 @@ namespace Kutuphane_Yonetimi.Models.Entity
         {
             this.TBL_CEZALAR = new HashSet<TBL_CEZALAR>();
             this.TBL_HAREKET = new HashSet<TBL_HAREKET>();
+            this.TBL_DUYURU_YORUM = new HashSet<TBL_DUYURU_YORUM>();
         }
     
         public int ID { get; set; }
@@ -35,5 +36,7 @@ namespace Kutuphane_Yonetimi.Models.Entity
         public virtual ICollection<TBL_CEZALAR> TBL_CEZALAR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_HAREKET> TBL_HAREKET { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TBL_DUYURU_YORUM> TBL_DUYURU_YORUM { get; set; }
     }
 }

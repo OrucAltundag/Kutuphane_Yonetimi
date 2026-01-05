@@ -8,21 +8,15 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Kütüphane | Yeni Mesaj</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="~/AdminLTE/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="~/AdminLTE/plugins/summernote/summernote-bs4.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini">
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+
                 @Html.Action("Partial1")
 
                 <div class="col-md-9">
@@ -35,13 +29,18 @@
                         {
                             <div class="card-body">
                                 <div class="form-group">
-                                    <input class="form-control" name="ALICI" placeholder="Kime:" required />
+                                    @Html.TextBoxFor(x => x.ALICI, new { @class = "form-control", @placeholder = "Kime:" })
+                                    @Html.ValidationMessageFor(x => x.ALICI, "", new { @style = "color:red" })
                                 </div>
+
                                 <div class="form-group">
-                                    <input class="form-control" name="KONU" placeholder="Konu:" required />
+                                    @Html.TextBoxFor(x => x.KONU, new { @class = "form-control", @placeholder = "Konu:" })
+                                    @Html.ValidationMessageFor(x => x.KONU, "", new { @style = "color:red" })
                                 </div>
+
                                 <div class="form-group">
-                                    <textarea id="compose-textarea" name="ICERIK" class="form-control" style="height: 150px"></textarea>
+                                    @Html.TextAreaFor(x => x.ICERIK, new { @class = "form-control", @style = "height:300px", @id = "editor1" })
+                                    @Html.ValidationMessageFor(x => x.ICERIK, "", new { @style = "color:red" })
                                 </div>
                             </div>
 
@@ -59,15 +58,14 @@
         </div>
     </section>
 
-    <script src="~/AdminLTE/plugins/jquery/jquery.min.js"></script>
-    <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/AdminLTE/dist/js/adminlte.min.js"></script>
-    <script src="~/AdminLTE/dist/js/demo.js"></script>
-    <script src="~/AdminLTE/plugins/summernote/summernote-bs4.min.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
 
     <script>
-        $(function () {
-            $('#compose-textarea').summernote()
+        document.addEventListener("DOMContentLoaded", function () {
+            var editorElement = document.getElementById('editor1');
+            if (editorElement) {
+                CKEDITOR.replace('editor1');
+            }
         });
     </script>
 </body>

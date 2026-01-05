@@ -69,6 +69,15 @@ namespace Kutuphane_Yonetimi.Controllers
         [HttpPost]
         public ActionResult GirisYap(TBL_PERSONEL p)
         {
+
+            // 1. Data Annotation Kontrolü (Regex ve Zorunluluklar)
+            // Eğer TC 11 hane değilse veya harf içeriyorsa burası "false" döner.
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Panel = "Personel"; // Kartın personel yüzü açık kalsın
+                return View("~/Views/Login/GirisYap.cshtml");
+            }
+
             var bilgiler = db.TBL_PERSONEL.FirstOrDefault(x => x.TC == p.TC && x.SIFRE == p.SIFRE);
 
             if (bilgiler != null)
@@ -85,7 +94,8 @@ namespace Kutuphane_Yonetimi.Controllers
             else
             {
                 ViewBag.hata = "TC veya Şifre hatalı!";
-                return View("GirisYap"); // Aynı sayfaya geri dön
+                ViewBag.Panel = "Personel";
+                return View("~/Views/Login/GirisYap.cshtml"); // Aynı sayfaya geri dön
             }
         }
 

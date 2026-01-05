@@ -21,8 +21,20 @@ namespace Kutuphane_Yonetimi.Controllers
             Class1 cs = new Class1();
 
             var kitaplar = db.TBL_KITAP.ToList();
-            cs.deger1 = kitaplar.Where(k => UrlCheck(k.KITAPRESIM)).Take(6).ToList();
+            cs.deger1 = kitaplar.Where(k => UrlCheck(k.KITAPRESIM)).Take(6).ToList(); // kitap urlsı sağlam mı control et sadece 6 tane al getir.
             cs.deger2 = db.TBL_HAKKIMIZDA.ToList();
+
+            string klasorYolu = Server.MapPath("~/web2/resimler/");
+            if (!Directory.Exists(klasorYolu))
+            {
+                Directory.CreateDirectory(klasorYolu);
+            }
+
+            var resimler = Directory.GetFiles(klasorYolu)
+                                    .Select(Path.GetFileName)
+                                    .ToList();
+
+            ViewBag.Resimler = resimler;
 
             return View(cs);
         }

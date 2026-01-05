@@ -51,19 +51,20 @@ namespace Kutuphane_Yonetimi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult KitapEkle(TBL_KITAP p)
         {
-           
+
+            if (!ModelState.IsValid)
+            {
+                return View(p);
+            }
 
 
-            //var ktg = db.TBL_KATEGORI.Where(x => x.ID == p.TBL_KATEGORI.ID).FirstOrDefault(); 
-            //var yzr = db.TBL_YAZAR.Where(x => x.ID == p.TBL_YAZAR.ID).FirstOrDefault();
-            //p.TBL_KATEGORI = ktg;
-            //p.TBL_YAZAR = yzr;
+
             db.TBL_KITAP.Add(p);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-
+        
         public ActionResult KitapSil(int id)
         {
             var kitap = db.TBL_KITAP.Find(id);
@@ -96,7 +97,12 @@ namespace Kutuphane_Yonetimi.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult KitapGuncelle(TBL_KITAP p)
         {
-            
+            if (!ModelState.IsValid)
+            {
+               
+                return View(p);
+            }
+
 
             var kitap = db.TBL_KITAP.Find(p.ID);  
             kitap.AD = p.AD;

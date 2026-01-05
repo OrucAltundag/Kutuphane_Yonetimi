@@ -53,10 +53,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/Yazar/Index/">Yazarlar</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Personel/Index/">Personeller</a>
-                    </li>
-
+                    @if (Session["LoginType"] != null && Session["LoginType"].ToString() != "PERSONEL")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Personel/Index/">Personeller</a>
+                        </li>
+                    }
                     <!-- Açılır menü: İşlemler -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -74,9 +76,7 @@
                             İstatistikler
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/Istatistik/Index/">Kütüphane Analizi</a></li>
-                            <li><a class="dropdown-item" href="/Istatistik/Hava/">Hava Raporu</a></li>
-                            <li><a class="dropdown-item" href="/Istatistik/LinqKart">LinqKart</a></li>
+                            <li><a class="dropdown-item" href="/Istatistik/LinqKart/">Kütüphane Analizi</a></li>
                         </ul>
                     </li>
 
@@ -87,7 +87,6 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/Vitrin/Index/">Vitrin</a></li>
                             <li><a class="dropdown-item" href="/Vitrin/Galeri/">Galeri</a></li>
-                            <li><a class="dropdown-item" href="//"></a></li>
                         </ul>
                     </li>
 
@@ -95,25 +94,27 @@
                         <a class="nav-link" href="/Duyuru/Index/">Duyurular</a>
                     </li>
 
-                    @if(User.IsInRole("A"))
+                    @if ((string)Session["LoginType"] == "ADMIN")
                     {
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Ayarlar/Index/">Ayarlar</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Ayarlar/Index/">Ayarlar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("YorumOnay","Admin")">Duyuru Yorum Onay</a>
+                        </li>
+
                     }
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Yardım/Index/">Yardım</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/Panel/CikisYap/">Çıkış</a>
                     </li>
 
                 </ul>
 
-               
+
             </div>
         </div>
-    </nav>   
+    </nav>
 
     <!-- Main Content -->
     <div class="container mt-4">

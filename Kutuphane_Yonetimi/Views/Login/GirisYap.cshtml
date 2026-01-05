@@ -1,18 +1,19 @@
-﻿@{
+﻿@using Kutuphane_Yonetimi.Models.Entity
+@model TBL_PERSONEL
+
+@{
     Layout = null;
 }
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="tr">
 <head>
     <title>Kütüphane Giriş Paneli</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="~/weblogin/css/style.css" rel="stylesheet" type="text/css" />
     <link href="~/weblogin/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="//fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900"
-          rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
     <style>
         .login-container {
@@ -24,7 +25,7 @@
         .login-card {
             position: relative;
             width: 100%;
-            min-height: 520px; /* kutunun yüksekliği */
+            min-height: 520px;
             transform-style: preserve-3d;
             transition: transform .8s;
         }
@@ -44,15 +45,39 @@
         .login-back {
             transform: rotateY(180deg);
         }
-        /* mevcut kutunun (w3l-login-form) iç padding/margin'ini koruyoruz */
+
         .login-face .w3l-login-form {
             margin: 0;
         }
+
+        .admin-login-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+            .admin-login-btn:hover {
+                background-color: #0056b3;
+            }
+
+        /* Hata Mesajı Stili */
+        .alert-error {
+            background-color: #ffcccc;
+            color: #cc0000;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid #ff9999;
+        }
     </style>
-
-
 </head>
-
 
 <body>
     <h1>Kütüphane Giriş Paneli</h1>
@@ -60,10 +85,17 @@
     <div class="login-container">
         <div class="login-card" id="loginCard">
 
-            <!-- Üye Girişi -->
             <div class="login-face">
                 <div class="w3l-login-form">
                     <h2>Giriş Yap</h2>
+
+                    @if (ViewBag.Hata != null && ViewBag.Panel == null)
+                    {
+                        <div class="alert-error">
+                            <i class="fas fa-exclamation-triangle"></i> @ViewBag.Hata
+                        </div>
+                    }
+
                     @using (Html.BeginForm("GirisYap", "Login", FormMethod.Post))
                     {
                         <div class="w3l-form-group">
@@ -94,88 +126,100 @@
                     </p>
                     <br />
                     <p class="w3l-register-p">
-                        <a href="#" onclick="toggleLogin()">Personel Girişi</a>
+                        <a href="#" id="toStaffBtn">Personel Girişi &rarr;</a>
                     </p>
                 </div>
             </div>
 
 
-            <!-- Personel Girişi -->
             <div class="login-face login-back">
                 <div class="w3l-login-form">
                     <h2>Personel Girişi</h2>
+
+                    @if (ViewBag.Hata != null && ViewBag.Panel == "Personel")
+                    {
+                        <div class="alert-error">
+                            <i class="fas fa-exclamation-circle"></i> @ViewBag.Hata
+                        </div>
+                    }
+
+                    @if (!Html.ViewData.ModelState.IsValid && ViewBag.Panel == "Personel")
+                    {
+                        <div class="alert-error">
+                            Lütfen bilgileri kontrol ediniz.
+                        </div>
+                    }
+
                     @using (Html.BeginForm("GirisYap", "Personel", FormMethod.Post))
                     {
                         <div class="w3l-form-group">
                             <label>Personel TC:</label>
                             <div class="group">
                                 <i class="fas fa-id-badge"></i>
-                                <input type="text" name="TC" class="form-control" required />
+                                @Html.TextBoxFor(x => x.TC, new { @class = "form-control", @placeholder = "11 Haneli TC", @required = "required" })
                             </div>
+                            @Html.ValidationMessageFor(x => x.TC, "", new { @style = "color:red; font-size:12px; font-weight:bold; display:block; margin-top:5px;" })
                         </div>
+
                         <div class="w3l-form-group">
                             <label>Şifre:</label>
                             <div class="group">
                                 <i class="fas fa-unlock"></i>
-                                <input type="password" name="SIFRE" class="form-control" required />
+                                @Html.PasswordFor(x => x.SIFRE, new { @class = "form-control", @placeholder = "Şifre", @required = "required" })
                             </div>
+                            @Html.ValidationMessageFor(x => x.SIFRE, "", new { @style = "color:red; font-size:12px; font-weight:bold; display:block; margin-top:5px;" })
                         </div>
+
                         <button type="submit">Personel Girişi</button>
                     }
                     <p class="w3l-register-p">
-                        <a href="#" id="toMember">Üye Girişi</a>
+                        <a href="#" id="toMemberBtn">&larr; Üye Girişi</a>
                     </p>
                 </div>
             </div>
 
-
         </div>
     </div>
 
-
-
-
-
     <footer>
         <p>&copy; 2025 Kütüphane Giriş Formu. Tüm Hakları Saklıdır.</p>
+        <p><a href="/Admin/Login" class="admin-login-btn">Admin Girişi</a></p>
     </footer>
 
-
-
     <script>
-        function toggleLogin() {
-            document.getElementById("loginCard").classList.toggle("flipped");
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var card = document.getElementById('loginCard');
+            var toStaffBtn = document.getElementById('toStaffBtn'); // ID'leri düzelttim
+            var toMemberBtn = document.getElementById('toMemberBtn'); // ID'leri düzelttim
+
+            // Tıklama olayları
+            if (toStaffBtn) {
+                toStaffBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    card.classList.add('flipped');
+                });
+            }
+            if (toMemberBtn) {
+                toMemberBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    card.classList.remove('flipped');
+                });
+            }
+
+            // URL parametresi kontrolü (?personel=1)
+            var params = new URLSearchParams(window.location.search);
+            if (params.get('personel') === '1') {
+                card.classList.add('flipped');
+            }
+
+            // CONTROLLER'DAN GELEN HATA KONTROLÜ
+            // Eğer PersonelController 'Panel' değerini 'Personel' gönderdiyse kartı çevir.
+            var panelDurumu = '@ViewBag.Panel';
+            if (panelDurumu === 'Personel') {
+                card.classList.add('flipped');
+            }
+        });
     </script>
 
 </body>
-
 </html>
-
-<script>
-    (function () {
-        var card = document.getElementById('loginCard');
-        var toStaff = document.getElementById('toStaff');
-        var toMember = document.getElementById('toMember');
-
-        if (toStaff) {
-            toStaff.addEventListener('click', function (e) {
-                e.preventDefault();
-                card.classList.add('flipped');
-            });
-        }
-        if (toMember) {
-            toMember.addEventListener('click', function (e) {
-                e.preventDefault();
-                card.classList.remove('flipped');
-            });
-        }
-
-        // ?personel=1 ile gelinirse doğrudan personel yüzünü göster
-        var params = new URLSearchParams(window.location.search);
-        if (params.get('personel') === '1') {
-            card.classList.add('flipped');
-        }
-    })();
-</script>
-

@@ -23,12 +23,12 @@ namespace Kutuphane_Yonetimi.Controllers
         {
             if(!ModelState.IsValid)
             {                 
-                return View("KayitOl");
+                return View(p);
             }
             db.TBL_UYELER.Add(p);
             db.SaveChanges();
 
-            return View();
+            return RedirectToAction("GirisYap", "Login");
         }
     }
 }

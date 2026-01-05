@@ -35,6 +35,17 @@
           <Property Name="PARA" Type="decimal" Precision="18" Scale="2" />
           <Property Name="HAREKET" Type="int" />
         </EntityType>
+        <EntityType Name="TBL_DUYURU_YORUM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DUYURU_ID" Type="tinyint" Nullable="false" />
+          <Property Name="UYE_ID" Type="int" Nullable="false" />
+          <Property Name="MESAJ" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="TARIH" Type="datetime" Nullable="false" />
+          <Property Name="ONAY" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="TBL_DUYURULAR">
           <Key>
             <PropertyRef Name="ID" />
@@ -149,6 +160,30 @@
           <Property Name="SOYAD" Type="varchar" MaxLength="30" />
           <Property Name="DETAY" Type="varchar" MaxLength="1000" />
         </EntityType>
+        <Association Name="FK_DuyuruYorum_Duyuru">
+          <End Role="TBL_DUYURULAR" Type="Self.TBL_DUYURULAR" Multiplicity="1" />
+          <End Role="TBL_DUYURU_YORUM" Type="Self.TBL_DUYURU_YORUM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DUYURULAR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DUYURU_YORUM">
+              <PropertyRef Name="DUYURU_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DuyuruYorum_Uye">
+          <End Role="TBL_UYELER" Type="Self.TBL_UYELER" Multiplicity="1" />
+          <End Role="TBL_DUYURU_YORUM" Type="Self.TBL_DUYURU_YORUM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_UYELER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DUYURU_YORUM">
+              <PropertyRef Name="UYE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TBL_CEZALAR_TBL_HAREKET">
           <End Role="TBL_HAREKET" Type="Self.TBL_HAREKET" Multiplicity="0..1" />
           <End Role="TBL_CEZALAR" Type="Self.TBL_CEZALAR" Multiplicity="*" />
@@ -273,6 +308,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ADMIN" EntityType="Self.TBL_ADMIN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_CEZALAR" EntityType="Self.TBL_CEZALAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DUYURU_YORUM" EntityType="Self.TBL_DUYURU_YORUM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_DUYURULAR" EntityType="Self.TBL_DUYURULAR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_HAKKIMIZDA" EntityType="Self.TBL_HAKKIMIZDA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_HAREKET" EntityType="Self.TBL_HAREKET" Schema="dbo" store:Type="Tables" />
@@ -284,6 +320,14 @@
           <EntitySet Name="TBL_PERSONEL" EntityType="Self.TBL_PERSONEL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_UYELER" EntityType="Self.TBL_UYELER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_YAZAR" EntityType="Self.TBL_YAZAR" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DuyuruYorum_Duyuru" Association="Self.FK_DuyuruYorum_Duyuru">
+            <End Role="TBL_DUYURULAR" EntitySet="TBL_DUYURULAR" />
+            <End Role="TBL_DUYURU_YORUM" EntitySet="TBL_DUYURU_YORUM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DuyuruYorum_Uye" Association="Self.FK_DuyuruYorum_Uye">
+            <End Role="TBL_UYELER" EntitySet="TBL_UYELER" />
+            <End Role="TBL_DUYURU_YORUM" EntitySet="TBL_DUYURU_YORUM" />
+          </AssociationSet>
           <AssociationSet Name="FK_TBL_CEZALAR_TBL_HAREKET" Association="Self.FK_TBL_CEZALAR_TBL_HAREKET">
             <End Role="TBL_HAREKET" EntitySet="TBL_HAREKET" />
             <End Role="TBL_CEZALAR" EntitySet="TBL_CEZALAR" />
@@ -417,6 +461,7 @@
           <Property Name="OKUL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TBL_CEZALAR" Relationship="Self.FK_TBL_CEZALAR_TBL_UYELER" FromRole="TBL_UYELER" ToRole="TBL_CEZALAR" />
           <NavigationProperty Name="TBL_HAREKET" Relationship="Self.FK_TBL_HAREKET_TBL_UYELER" FromRole="TBL_UYELER" ToRole="TBL_HAREKET" />
+          <NavigationProperty Name="TBL_DUYURU_YORUM" Relationship="DBKUTUPHANEModel.FK_DuyuruYorum_Uye" FromRole="TBL_UYELER" ToRole="TBL_DUYURU_YORUM" />
         </EntityType>
         <EntityType Name="TBL_YAZAR">
           <Key>
@@ -579,6 +624,15 @@
           <EntitySet Name="TBL_MESAJLAR" EntityType="DBKUTUPHANEModel.TBL_MESAJLAR" />
           <EntitySet Name="TBL_DUYURULAR" EntityType="DBKUTUPHANEModel.TBL_DUYURULAR" />
           <EntitySet Name="TBL_ADMIN" EntityType="DBKUTUPHANEModel.TBL_ADMIN" />
+          <EntitySet Name="TBL_DUYURU_YORUM" EntityType="DBKUTUPHANEModel.TBL_DUYURU_YORUM" />
+          <AssociationSet Name="FK_DuyuruYorum_Duyuru" Association="DBKUTUPHANEModel.FK_DuyuruYorum_Duyuru">
+            <End Role="TBL_DUYURULAR" EntitySet="TBL_DUYURULAR" />
+            <End Role="TBL_DUYURU_YORUM" EntitySet="TBL_DUYURU_YORUM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DuyuruYorum_Uye" Association="DBKUTUPHANEModel.FK_DuyuruYorum_Uye">
+            <End Role="TBL_UYELER" EntitySet="TBL_UYELER" />
+            <End Role="TBL_DUYURU_YORUM" EntitySet="TBL_DUYURU_YORUM" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_TBL_HAREKET_TBL_PERSONEL">
           <End Type="DBKUTUPHANEModel.TBL_PERSONEL" Role="TBL_PERSONEL" Multiplicity="0..1" />
@@ -640,6 +694,7 @@
           <Property Name="ICERIK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="TARIH" Type="DateTime" Precision="3" />
           <Property Name="LikeSayısı" Type="Int32" />
+          <NavigationProperty Name="TBL_DUYURU_YORUM" Relationship="DBKUTUPHANEModel.FK_DuyuruYorum_Duyuru" FromRole="TBL_DUYURULAR" ToRole="TBL_DUYURU_YORUM" />
         </EntityType>
         <EntityType Name="TBL_ADMIN">
           <Key>
@@ -650,6 +705,43 @@
           <Property Name="SIFRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="YETKI" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
         </EntityType>
+        <EntityType Name="TBL_DUYURU_YORUM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DUYURU_ID" Type="Byte" Nullable="false" />
+          <Property Name="UYE_ID" Type="Int32" Nullable="false" />
+          <Property Name="MESAJ" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TARIH" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ONAY" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TBL_DUYURULAR" Relationship="DBKUTUPHANEModel.FK_DuyuruYorum_Duyuru" FromRole="TBL_DUYURU_YORUM" ToRole="TBL_DUYURULAR" />
+          <NavigationProperty Name="TBL_UYELER" Relationship="DBKUTUPHANEModel.FK_DuyuruYorum_Uye" FromRole="TBL_DUYURU_YORUM" ToRole="TBL_UYELER" />
+        </EntityType>
+        <Association Name="FK_DuyuruYorum_Duyuru">
+          <End Type="DBKUTUPHANEModel.TBL_DUYURULAR" Role="TBL_DUYURULAR" Multiplicity="1" />
+          <End Type="DBKUTUPHANEModel.TBL_DUYURU_YORUM" Role="TBL_DUYURU_YORUM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_DUYURULAR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DUYURU_YORUM">
+              <PropertyRef Name="DUYURU_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DuyuruYorum_Uye">
+          <End Type="DBKUTUPHANEModel.TBL_UYELER" Role="TBL_UYELER" Multiplicity="1" />
+          <End Type="DBKUTUPHANEModel.TBL_DUYURU_YORUM" Role="TBL_DUYURU_YORUM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_UYELER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TBL_DUYURU_YORUM">
+              <PropertyRef Name="UYE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -840,6 +932,18 @@
                 <ScalarProperty Name="YETKI" ColumnName="YETKI" />
                 <ScalarProperty Name="SIFRE" ColumnName="SIFRE" />
                 <ScalarProperty Name="KULLANICI" ColumnName="KULLANICI" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DUYURU_YORUM">
+            <EntityTypeMapping TypeName="DBKUTUPHANEModel.TBL_DUYURU_YORUM">
+              <MappingFragment StoreEntitySet="TBL_DUYURU_YORUM">
+                <ScalarProperty Name="ONAY" ColumnName="ONAY" />
+                <ScalarProperty Name="TARIH" ColumnName="TARIH" />
+                <ScalarProperty Name="MESAJ" ColumnName="MESAJ" />
+                <ScalarProperty Name="UYE_ID" ColumnName="UYE_ID" />
+                <ScalarProperty Name="DUYURU_ID" ColumnName="DUYURU_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

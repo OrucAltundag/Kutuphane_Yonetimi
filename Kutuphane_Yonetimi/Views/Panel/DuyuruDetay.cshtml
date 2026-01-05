@@ -1,0 +1,76 @@
+﻿@model Kutuphane_Yonetimi.Models.Entity.TBL_DUYURULAR
+@{
+    ViewBag.Title = "DuyuruDetay";
+    Layout = "~/Views/Shared/_LayoutPanel.cshtml";
+}
+
+
+
+
+<h3>@Model.KATEGORI</h3>
+<p>@Model.ICERIK</p>
+<small>@Model.TARIH</small>
+
+<hr />
+<h4> Yorumlar</h4>
+
+@{
+    var yorumlar = ViewBag.Yorumlar as System.Collections.Generic.List<Kutuphane_Yonetimi.Models.Entity.TBL_DUYURU_YORUM>;
+}
+
+@if (yorumlar != null && yorumlar.Any())
+{
+    foreach (var y in yorumlar)
+    {
+        <div style="border:1px solid #ddd; padding:8px; margin-bottom:8px;">
+            <small>@y.TARIH</small>
+            <div>@y.MESAJ</div>
+        </div>
+    }
+}
+else
+{
+    <p>Henüz  yorum yok.</p>
+}
+
+<hr />
+<h4>Yorum Yaz</h4>
+
+<form id="yorumForm">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="duyuruId" value="@Model.ID" />
+    <textarea id="mesaj" class="form-control" rows="3" placeholder="Yorumunu yaz..."></textarea>
+    <button type="submit" class="btn btn-primary" style="margin-top:8px;">Gönder</button>
+</form>
+
+<script src="~/Scripts/jquery-3.7.0.min.js"></script>
+
+
+<script>
+    $("#yorumForm").submit(function (e) {
+
+
+        e.preventDefault();
+        alert("submit yakalandı");
+
+    $.ajax({
+          url: '@Url.Action("YorumEkle","Panel")',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+            duyuruId: $("#duyuruId").val(),
+            mesaj: $("#mesaj").val()
+          },
+          success: function (res) {
+            alert(res.message);
+          },
+          error: function (xhr) {
+            alert("AJAX HATA: " + xhr.status + "\n" + xhr.responseText);
+          }
+        });
+
+});
+</script>
+
+

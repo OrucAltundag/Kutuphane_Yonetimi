@@ -23,7 +23,7 @@
         <td>Personel</td>
         <td>Alış Tarihi </td>
         <td>Üye İade Tarihi</td>
-        <td>İŞLEMLER</td>
+       
     </tr>
     @foreach (var item in Model)
     {
@@ -32,9 +32,9 @@
             <td>@item.TBL_KITAP.AD</td>
             <td>@item.TBL_UYELER.AD &nbsp @item.TBL_UYELER.SOYAD</td>
             <td>@item.TBL_PERSONEL.PERSONEL</td>
-            <td>@Convert.ToDateTime(@item.ALISTARIH).ToString("dd/MM(yyyy")</td>
-            <td>@Convert.ToDateTime(@item.UyeGetirTarih).ToString("dd/MM(yyyy")</td>
-            <td> <a class="btn btn-primary btn-sm" href="">Detaylar</a></td>
+            <td>@Convert.ToDateTime(@item.ALISTARIH).ToString("dd/MM/yyyy")</td>
+            <td>@Convert.ToDateTime(@item.UyeGetirTarih).ToString("dd/MM/yyyy")</td>
+           
 
         </tr>
     }

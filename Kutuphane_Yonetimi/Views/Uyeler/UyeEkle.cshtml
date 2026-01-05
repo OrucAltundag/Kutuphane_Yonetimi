@@ -19,14 +19,14 @@
         <label for="AD">Üye Adı</label>
         @Html.TextBoxFor(y => y.AD, new { @class = "form-control", placeholder = "Uye Adı" })
         @Html.ValidationMessageFor(y => y.AD, "", new { @class = "text-danger" })
-        @* Zorunluysa modelde [Required] kullan *@
+        
     </div>
 
     <div style="margin-top:15px">
         <label>Üye Soyadı</label>
         @Html.TextBoxFor(y => y.SOYAD, new { @class = "form-control", placeholder = "Uye Soyadı" })
         @Html.ValidationMessageFor(y => y.SOYAD, "", new { @class = "text-danger" })
-        @* Zorunluysa modelde [Required] kullan *@
+        
     </div>
 
     <div style="margin-top:15px">
@@ -46,11 +46,7 @@
 
     </div>
 
-    <div style="margin-top:15px">
-        <label>Şifre</label>
-        @Html.TextBoxFor(y => y.SIFRE, new { @class = "form-control", placeholder = "Şifre" })
-        @Html.ValidationMessageFor(y => y.SIFRE, "", new { @class = "text-danger" })
-    </div>
+    
 
     <div style="margin-top:15px">
         <label>Fotograf</label>

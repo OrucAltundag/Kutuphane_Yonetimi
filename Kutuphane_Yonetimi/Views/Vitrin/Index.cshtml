@@ -57,7 +57,7 @@
     </nav>
 
     <!-- Masthead -->
-    <header class="masthead bg-primary text-white text-center">
+    <header class="masthead text-white text-center" style="background-color:#1e3d59;">
         <div class="container d-flex align-items-center flex-column">
 
             <!-- Masthead Avatar Image -->
@@ -76,7 +76,66 @@
             </div>
 
             <!-- Masthead Subheading -->
-            <p class="masthead-subheading font-weight-light mb-0">Çiçek dolu bir bahçe,kitap dolu bir ev</p>
+            <p class="masthead-subheading font-weight-light mb-0">Çiçek dolu bir bahçe, kitap dolu bir ev</p>
+
+            <div class="container mt-4">
+               
+                @if (ViewBag.Resimler != null && ((List<string>)ViewBag.Resimler).Count > 0)
+                {
+                    <div id="myCarousel" class="carousel slide shadow-lg rounded mx-auto"
+                         data-ride="carousel" data-interval="3000" style="max-width:1000px;">
+
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            @{
+                                int j = 0;
+                                foreach (var _ in ViewBag.Resimler)
+                                {
+                                    var activeClass = j == 0 ? "active" : "";
+                                    <li data-target="#myCarousel" data-slide-to="@j" class="@activeClass"></li>
+;
+                                    j++;
+                                }
+                            }
+                        </ol>
+
+                        <!-- Slides -->
+                        <div class="carousel-inner rounded" style="height:400px;">
+                            @{
+                                int i = 0;
+                                foreach (var resim in ViewBag.Resimler)
+                                {
+                                    var aktif = i == 0 ? "active" : "";
+                                    <div class="carousel-item @aktif">
+                                        <img src="~/web2/resimler/@resim"
+                                             class="d-block w-100 h-100"
+                                             style="object-fit:cover;"
+                                             alt="Fotoğraf @i" />
+                                    </div>;
+                                    i++;
+                                }
+                            }
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Önceki</span>
+                        </a>
+                        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Sonraki</span>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning text-center">
+                        📂 Henüz hiç resim yüklenmemiş.
+                    </div>
+                }
+            </div>
+
 
         </div>
     </header>
@@ -126,7 +185,7 @@
     </section>
 
     <!-- About Section -->
-    <section class="page-section bg-primary text-white mb-0" id="about">
+    <section class="page-section text-white mb-0" id="about" style="background-color:#1e3d59;">
         <div class="container">
 
             <!-- About Section Heading -->

@@ -21,12 +21,13 @@ namespace Kutuphane_Yonetimi.Controllers
 
             var deger0 = db.TBL_CEZALAR.Sum(X => X.PARA);
             ViewBag.d0 = Math.Round((decimal)deger0 / 41, 2);
-            var deger1 = db.TBL_UYELER.Count();
-            ViewBag.d1 = deger1;
-            var deger2 = db.TBL_KITAP.Count();
-            ViewBag.d2 = deger2;
-            var deger3 = db.TBL_KITAP.Where(X => X.DURUM == false).Count();
-            ViewBag.d3 = deger3;
+            var deger100 = db.TBL_UYELER.Count();
+            ViewBag.d10 = deger100;
+            var deger20 = db.TBL_KITAP.Count();
+            ViewBag.d20 = deger20;
+            var deger30 = db.TBL_KITAP.Where(X => X.DURUM == false).Count();
+            ViewBag.d30 = deger30;
+
 
 
             return View();

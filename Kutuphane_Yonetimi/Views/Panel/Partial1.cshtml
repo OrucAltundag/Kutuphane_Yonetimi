@@ -36,6 +36,12 @@
             <a href="@Url.Action("LikeDuyuru", "Panel", new { id = item.ID })" class="link-black text-sm">
                 <i class="far fa-thumbs-up mr-1"></i> Beğen (@(item.LikeSayısı ?? 0))
             </a>
+
+            <a href="@Url.Action("DuyuruDetay","Panel", new { id = item.ID })"
+               class="ms-2">
+                Yorumlar
+            </a>
+
         </p>
 
         <br />

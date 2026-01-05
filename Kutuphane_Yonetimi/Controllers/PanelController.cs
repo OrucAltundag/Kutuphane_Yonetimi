@@ -68,20 +68,84 @@ namespace Kutuphane_Yonetimi.Controllers
             return View(degerler);
         }
 
+
         [HttpPost]
-        public ActionResult Index2(TBL_UYELER p)
+        [ValidateAntiForgeryToken]
+        public ActionResult Index2(TBL_UYELER p, HttpPostedFileBase Foto, HttpPostedFileBase FOTORAF)
         {
+            ModelState.Remove("MAIL");
+            // DATA ANNOTATION KONTROLÜ 
+            if (!ModelState.IsValid)
+            {
+                
+                if (ModelState["TELEFON"] != null && ModelState["TELEFON"].Errors.Count > 0)
+                {
+                    TempData["TelHata"] = ModelState["TELEFON"].Errors[0].ErrorMessage;
+                    TempData["TelDeger"] = p.TELEFON; // Hatalı veriyi geri gönder ki silinmesin
+                }
+                else
+                {
+                    
+                    var hataMesaji = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+                    TempData["TelHata"] = hataMesaji ?? "Lütfen bilgileri eksiksiz giriniz.";
+                }
+
+                return RedirectToAction("Index"); // Hata olduğu için güncelleme yapmadan geri dönüyoruz.
+            }
+
+            //  KULLANICIYI BUL
             var kullanici = (string)Session["KULLANICIADI"];
             var uye = db.TBL_UYELER.FirstOrDefault(x => x.KULLANICIADI == kullanici);
-            uye.SIFRE = p.SIFRE;
+
+            if (uye == null) return RedirectToAction("Index");
+
+            //  GÜNCELLEME İŞLEMİ 
             uye.AD = p.AD;
             uye.SOYAD = p.SOYAD;
-            uye.FOTOGRAF = p.FOTOGRAF;
             uye.OKUL = p.OKUL;
-            uye.MAIL = p.MAIL;
             uye.KULLANICIADI = p.KULLANICIADI;
+            if (!string.IsNullOrEmpty(p.MAIL))
+            {
+                uye.MAIL = p.MAIL;
+            }
+            uye.TELEFON = p.TELEFON; 
 
+            //  DOSYA YÜKLEME İŞLEMİ 
+            var file = Foto ?? FOTORAF;
+            if (file != null && file.ContentLength > 0)
+            {
+                var ext = System.IO.Path.GetExtension(file.FileName).ToLower();
+                string[] izinli = { ".jpg", ".jpeg", ".png", ".bmp" };
+
+                if (!izinli.Contains(ext))
+                {
+                    TempData["SifreHata"] = "Sadece jpg, jpeg, png, bmp yükleyebilirsin.";
+                    return RedirectToAction("Index");
+                }
+
+                var klasor = Server.MapPath("~/Uploads/Uyeler/");
+                if (!System.IO.Directory.Exists(klasor))
+                    System.IO.Directory.CreateDirectory(klasor);
+
+                var dosyaAdi = Guid.NewGuid().ToString("N") + ext;
+                var kayitYolu = System.IO.Path.Combine(klasor, dosyaAdi);
+
+                file.SaveAs(kayitYolu);
+
+                // Eski fotoğrafı silme işlemi...
+                if (!string.IsNullOrEmpty(uye.FOTOGRAF) && uye.FOTOGRAF.StartsWith("~/Uploads/Uyeler/"))
+                {
+                    var eskiFiziksel = Server.MapPath(uye.FOTOGRAF);
+                    if (System.IO.File.Exists(eskiFiziksel))
+                        System.IO.File.Delete(eskiFiziksel);
+                }
+
+                uye.FOTOGRAF = "~/Uploads/Uyeler/" + dosyaAdi;
+            }
+
+           
             db.SaveChanges();
+            TempData["SifreBasari"] = "Profil başarıyla güncellendi.";
             return RedirectToAction("Index");
         }
 
@@ -132,7 +196,9 @@ namespace Kutuphane_Yonetimi.Controllers
             return PartialView("PartialAyarlar",UyeBul);
         }
 
+     
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SifreGuncelle(string EskiSifre, string YeniSifre, string YeniSifreTekrar)
         {
             var kullanici = (string)Session["KULLANICIADI"];
@@ -162,6 +228,76 @@ namespace Kutuphane_Yonetimi.Controllers
             TempData["SifreBasari"] = "Şifre başarıyla güncellendi.";
             return RedirectToAction("Index");
         }
+
+
+        // Duyuru detay + onaylı yorumlar
+        [HttpGet]
+        [Authorize]
+        public ActionResult DuyuruDetay(byte id)
+        {
+            var duyuru = db.TBL_DUYURULAR.Find(id);
+            if (duyuru == null) return HttpNotFound();
+
+            var yorumlar = db.TBL_DUYURU_YORUM
+                .Where(x => x.DUYURU_ID == id && x.ONAY == true)
+                .OrderByDescending(x => x.TARIH)
+                .ToList();
+
+            ViewBag.Yorumlar = yorumlar;
+            return View(duyuru); 
+        }
+
+        //  Üye yorum ekler (AJAX -> JSON)
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public JsonResult YorumEkle(byte duyuruId, string mesaj)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(mesaj))
+                    return Json(new { success = false, message = "Yorum boş olamaz." });
+
+                int uyeId = 0;
+
+                if (Session["ID"] != null)
+                {
+                    uyeId = Convert.ToInt32(Session["ID"]);
+                }
+                else
+                {
+                    var kullanici = (string)Session["KULLANICIADI"];
+                    if (!string.IsNullOrWhiteSpace(kullanici))
+                    {
+                        uyeId = db.TBL_UYELER
+                            .Where(x => x.KULLANICIADI == kullanici)
+                            .Select(x => x.ID)
+                            .FirstOrDefault();
+                    }
+                }
+
+                if (uyeId == 0)
+                    return Json(new { success = false, message = "Üye oturumu bulunamadı (ID yok)." });
+
+                db.TBL_DUYURU_YORUM.Add(new TBL_DUYURU_YORUM
+                {
+                    DUYURU_ID = duyuruId,   
+                    UYE_ID = uyeId,
+                    MESAJ = mesaj.Trim(),
+                    TARIH = DateTime.Now,
+                    ONAY = false
+                });
+
+                db.SaveChanges();
+
+                return Json(new { success = true, message = "Yorum gönderildi. Admin onaylayınca görünecek." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Sunucu hatası: " + ex.Message });
+            }
+        }
+
 
 
 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Kutuphane_Yonetimi.Models.Entity;
 
 
+
 namespace Kutuphane_Yonetimi.Controllers
 {
  
@@ -37,16 +38,30 @@ namespace Kutuphane_Yonetimi.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateInput(false)] 
         public ActionResult YeniMesaj(TBL_MESAJLAR P)
         {
+            
+            ModelState.Remove("GONDEREN");
+            ModelState.Remove("TARIH");
+
+           
+            if (!ModelState.IsValid)
+            {
+                return View("YeniMesaj");
+            }
+
+           
             int uyeId = int.Parse(Session["ID"].ToString());
             var uye = db.TBL_UYELER.Find(uyeId);
+
             P.GONDEREN = uye.MAIL;
             P.TARIH = DateTime.Parse(DateTime.Now.ToShortDateString());
+
             db.TBL_MESAJLAR.Add(P);
             db.SaveChanges();
 
-            return RedirectToAction("GidenMesajlar","Mesajlar");
+            return RedirectToAction("GidenMesajlar", "Mesajlar");
         }
 
         public PartialViewResult Partial1()

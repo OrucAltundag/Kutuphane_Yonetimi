@@ -41,6 +41,7 @@ namespace Kutuphane_Yonetimi.Models.Entity
         public virtual DbSet<TBL_MESAJLAR> TBL_MESAJLAR { get; set; }
         public virtual DbSet<TBL_DUYURULAR> TBL_DUYURULAR { get; set; }
         public virtual DbSet<TBL_ADMIN> TBL_ADMIN { get; set; }
+        public virtual DbSet<TBL_DUYURU_YORUM> TBL_DUYURU_YORUM { get; set; }
     
         public virtual ObjectResult<string> EnFazlaKitapliYazar()
         {

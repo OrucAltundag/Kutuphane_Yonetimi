@@ -22,6 +22,7 @@
             <th>Kategori</th>
             <th>İçerik</th>
             <th>Tarih</th>
+            <th>İşlem</th>
         </tr>
     </thead>
     <tbody id="personelTable">
@@ -32,6 +33,12 @@
                 <td>@duy.KATEGORI</td>
                 <td>@duy.ICERIK</td>
                 <td>@Convert.ToDateTime(duy.TARIH).ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a class="btn btn-info btn-sm"
+                       href="@Url.Action("DuyuruDetay","Panel", new { id = duy.ID })">
+                        Detay / Yorumlar
+                    </a>
+                </td>
 
             </tr>
         }

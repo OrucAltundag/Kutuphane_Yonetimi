@@ -1,5 +1,8 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model Kutuphane_Yonetimi.Models.Siniflarim.PanelViewModel
+
+
+@{
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAnaSayfa.cshtml";
 }
 
@@ -11,19 +14,11 @@
     <title>AdminLTE 3 | Dashboard</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bbootstrap 4 -->
-    <link rel="stylesheet" href="~/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <!-- iCheck -->
+
     <link rel="stylesheet" href="~/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- JQVMap -->
     <link rel="stylesheet" href="~/AdminLTE/plugins/jqvmap/jqvmap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/AdminLTE/dist/css/adminlte.min.css">
-    <!-- overlayScrollbars -->
+
     <link rel="stylesheet" href="~/AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="~/AdminLTE/plugins/daterangepicker/daterangepicker.css">
@@ -31,739 +26,491 @@
     <link rel="stylesheet" href="~/AdminLTE/plugins/summernote/summernote-bs4.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 (Calendar için şart) -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE/dist/css/adminlte.min.css">
+
+    <!-- FullCalendar -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fullcalendar/main.min.css">
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fullcalendar-daygrid/main.min.css">
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fullcalendar-timegrid/main.min.css">
+    <link rel="stylesheet" href="~/AdminLTE/plugins/fullcalendar-bootstrap/main.min.css">
+
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="index3.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-            </li>
-        </ul>
-
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-3">
-            <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-
-        <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
-            <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-comments"></i>
-                    <span class="badge badge-danger navbar-badge">3</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    Brad Diesel
-                                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">Call me whenever you can...</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    John Pierce
-                                    <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">I got your message bro</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    Nora Silvester
-                                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">The subject goes here</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
-                        <!-- Message End -->
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                </div>
-            </li>
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">15</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-users mr-2"></i> 8 friend requests
-                        <span class="float-right text-muted text-sm">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-file mr-2"></i> 3 new reports
-                        <span class="float-right text-muted text-sm">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                    <i class="fas fa-th-large"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
+    <br />
     <div class="row">
+        <!-- Kitaplar -->
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>150</h3>
-
-                    <p>New Orders</p>
+                    <h3>@Model.ToplamKitap</h3>
+                    <p>Toplam Kitap</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-bag"></i>
+                    <i class="fas fa-book"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer" data-toggle="modal" data-target="#kitapModal">
+                    Daha Fazla <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
         </div>
-        <!-- ./col -->
+
+        <!-- Bugünkü Ödünç -->
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                    <p>Bounce Rate</p>
+                    <h3>@Model.BugunOduncSayisi</h3>
+                    <p>Bugün Ödünç</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                    <i class="fas fa-exchange-alt"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer" data-toggle="modal" data-target="#oduncModal">
+                    Daha Fazla <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
         </div>
-        <!-- ./col -->
+
+        <!-- Üyeler -->
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>44</h3>
-
-                    <p>User Registrations</p>
+                    <h3>@Model.ToplamUye</h3>
+                    <p>Toplam Üye</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-person-add"></i>
+                    <i class="fas fa-users"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer" data-toggle="modal" data-target="#uyeModal">
+                    Daha Fazla <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
         </div>
-        <!-- ./col -->
+
+        <!-- Kategoriler -->
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>65</h3>
-
-                    <p>Unique Visitors</p>
+                    <h3>@Model.KategoriSayisi</h3>
+                    <p>Kategori Sayısı</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <div class="icon"><i class="fas fa-list"></i></div>
+                <a href="#" class="small-box-footer" data-toggle="modal" data-target="#kategoriModal">
+                    Daha Fazla <i class="fas fa-arrow-circle-right"></i>
+                </a>
             </div>
-        </div>
-        <!-- ./col -->
-    </div>
-
-    <div class="card bg-gradient-primary">
-        <div class="card-header border-0">
-            <h3 class="card-title">
-                <i class="fas fa-map-marker-alt mr-1"></i>
-                Visitors
-            </h3>
-            <!-- card tools -->
-            <div class="card-tools">
-                <button type="button"
-                        class="btn btn-primary btn-sm daterange"
-                        data-toggle="tooltip"
-                        title="Date range">
-                    <i class="far fa-calendar-alt"></i>
-                </button>
-                <button type="button"
-                        class="btn btn-primary btn-sm"
-                        data-card-widget="collapse"
-                        data-toggle="tooltip"
-                        title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-            <!-- /.card-tools -->
-        </div>
-        <div class="card-body">
-            <div id="world-map" style="height: 250px; width: 100%;"></div>
-        </div>
-        <!-- /.card-body-->
-        <div class="card-footer bg-transparent">
-            <div class="row">
-                <div class="col-4 text-center">
-                    <div id="sparkline-1"></div>
-                    <div class="text-white">Visitors</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                    <div id="sparkline-2"></div>
-                    <div class="text-white">Online</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                    <div id="sparkline-3"></div>
-                    <div class="text-white">Sales</div>
-                </div>
-                <!-- ./col -->
-            </div>
-            <!-- /.row -->
         </div>
     </div>
 
-    <div class="card bg-gradient-info">
-        <div class="card-header border-0">
-            <h3 class="card-title">
-                <i class="fas fa-th mr-1"></i>
-                Sales Graph
-            </h3>
-
-            <div class="card-tools">
-                <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                </button>
+    <!-- Kitap Modal -->
+    <div class="modal fade" id="kitapModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">📚 Kitap Detayları</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>En çok ödünç alınan kitap: <b>@Model.EnPopulerKitap</b></p>
+                    <p>Son eklenen kitap: <b>@Model.SonEklenenKitap</b></p>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer bg-transparent">
-            <div class="row">
-                <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">Mail-Orders</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">Online</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">In-Store</div>
-                </div>
-                <!-- ./col -->
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.card-footer -->
     </div>
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">
-                <i class="fas fa-chart-pie mr-1"></i>
-                Sales
-            </h3>
-            <div class="card-tools">
-                <ul class="nav nav-pills ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                    </li>
-                </ul>
-            </div>
-        </div><!-- /.card-header -->
-        <div class="card-body">
-            <div class="tab-content p-0">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart"
-                     style="position: relative; height: 300px;">
-                    <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+    <!-- Ödünç Modal -->
+    <div class="modal fade" id="oduncModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">📖 Bugün Ödünç Alınan Kitaplar</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
                 </div>
-                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                <div class="modal-body">
+                    @if (Model.BugunOdunc != null && Model.BugunOdunc.Any())
+                    {
+                        <ul class="list-group">
+                            @foreach (var item in Model.BugunOdunc)
+                            {
+                                <li class="list-group-item">
+                                    <b>@item.KitapAdi</b> - <span class="text-muted">@item.UyeAdi</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">📌 Bugün ödünç alınan kitap yok.</p>
+                    }
                 </div>
             </div>
-        </div><!-- /.card-body -->
+        </div>
+    </div>
+
+    <!-- Üye Modal -->
+    <div class="modal fade" id="uyeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">👥 Üye Detayları</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>Son eklenen üye: <b>@Model.SonUye</b></p>
+                    <p>En çok kitap alan üye: <b>@Model.EnAktifUye</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kategori Modal -->
+    <div class="modal fade" id="kategoriModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">📊 Önemli Kategoriler</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    @if (Model.OnemliKategoriler != null && Model.OnemliKategoriler.Any())
+                    {
+                        <ul class="list-group">
+                            @foreach (var kategori in Model.OnemliKategoriler)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@kategori.Kategori</span>
+                                    <span class="badge bg-primary rounded-pill">@kategori.KitapSayisi kitap</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">⚠️ Henüz kategori bilgisi yok.</p>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 
 
-    <section class="col-lg-7 connectedSortable">
-        <!-- Custom tabs (Charts with tabs)-->
-        <!-- /.card -->
-        <!-- DIRECT CHAT -->
-        <div class="card direct-chat direct-chat-primary">
-            <div class="card-header">
-                <h3 class="card-title">Direct Chat</h3>
 
-                <div class="card-tools">
-                    <span data-toggle="tooltip" title="3 New Messages" class="badge badge-primary">3</span>
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Contacts"
-                            data-widget="chat-pane-toggle">
-                        <i class="fas fa-comments"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+
+    <div class="row">
+
+        <div class="card card-success">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title">📊 Günlük Kitap Trafiği</h3>
             </div>
-            <!-- /.card-header -->
             <div class="card-body">
-                <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages">
-                    <!-- Message. Default to the left -->
-                    <div class="direct-chat-msg">
-                        <div class="direct-chat-infos clearfix">
-                            <span class="direct-chat-name float-left">Alexander Pierce</span>
-                            <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                            Is this template really for free? That's unbelievable!
-                        </div>
-                        <!-- /.direct-chat-text -->
-                    </div>
-                    <!-- /.direct-chat-msg -->
-                    <!-- Message to the right -->
-                    <div class="direct-chat-msg right">
-                        <div class="direct-chat-infos clearfix">
-                            <span class="direct-chat-name float-right">Sarah Bullock</span>
-                            <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                            You better believe it!
-                        </div>
-                        <!-- /.direct-chat-text -->
-                    </div>
-                    <!-- /.direct-chat-msg -->
-                    <!-- Message. Default to the left -->
-                    <div class="direct-chat-msg">
-                        <div class="direct-chat-infos clearfix">
-                            <span class="direct-chat-name float-left">Alexander Pierce</span>
-                            <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                            Working with AdminLTE on a great new app! Wanna join?
-                        </div>
-                        <!-- /.direct-chat-text -->
-                    </div>
-                    <!-- /.direct-chat-msg -->
-                    <!-- Message to the right -->
-                    <div class="direct-chat-msg right">
-                        <div class="direct-chat-infos clearfix">
-                            <span class="direct-chat-name float-right">Sarah Bullock</span>
-                            <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                        </div>
-                        <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                        <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                            I would love to.
-                        </div>
-                        <!-- /.direct-chat-text -->
-                    </div>
-                    <!-- /.direct-chat-msg -->
-
-                </div>
-                <!--/.direct-chat-messages-->
-                <!-- Contacts are loaded here -->
-                <div class="direct-chat-contacts">
-                    <ul class="contacts-list">
-                        <li>
-                            <a href="#">
-                                <img class="contacts-list-img" src="dist/img/user1-128x128.jpg">
-
-                                <div class="contacts-list-info">
-                                    <span class="contacts-list-name">
-                                        Count Dracula
-                                        <small class="contacts-list-date float-right">2/28/2015</small>
-                                    </span>
-                                    <span class="contacts-list-msg">How have you been? I was...</span>
-                                </div>
-                                <!-- /.contacts-list-info -->
-                            </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                            <a href="#">
-                                <img class="contacts-list-img" src="dist/img/user7-128x128.jpg">
-
-                                <div class="contacts-list-info">
-                                    <span class="contacts-list-name">
-                                        Sarah Doe
-                                        <small class="contacts-list-date float-right">2/23/2015</small>
-                                    </span>
-                                    <span class="contacts-list-msg">I will be waiting for...</span>
-                                </div>
-                                <!-- /.contacts-list-info -->
-                            </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                            <a href="#">
-                                <img class="contacts-list-img" src="dist/img/user3-128x128.jpg">
-
-                                <div class="contacts-list-info">
-                                    <span class="contacts-list-name">
-                                        Nadia Jolie
-                                        <small class="contacts-list-date float-right">2/20/2015</small>
-                                    </span>
-                                    <span class="contacts-list-msg">I'll call you back at...</span>
-                                </div>
-                                <!-- /.contacts-list-info -->
-                            </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                            <a href="#">
-                                <img class="contacts-list-img" src="dist/img/user5-128x128.jpg">
-
-                                <div class="contacts-list-info">
-                                    <span class="contacts-list-name">
-                                        Nora S. Vans
-                                        <small class="contacts-list-date float-right">2/10/2015</small>
-                                    </span>
-                                    <span class="contacts-list-msg">Where is your new...</span>
-                                </div>
-                                <!-- /.contacts-list-info -->
-                            </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                            <a href="#">
-                                <img class="contacts-list-img" src="dist/img/user6-128x128.jpg">
-
-                                <div class="contacts-list-info">
-                                    <span class="contacts-list-name">
-                                        John K.
-                                        <small class="contacts-list-date float-right">1/27/2015</small>
-                                    </span>
-                                    <span class="contacts-list-msg">Can I take a look at...</span>
-                                </div>
-                                <!-- /.contacts-list-info -->
-                            </a>
-                        </li>
-                        <!-- End Contact Item -->
-                        <li>
-                            <a href="#">
-                                <img class="contacts-list-img" src="dist/img/user8-128x128.jpg">
-
-                                <div class="contacts-list-info">
-                                    <span class="contacts-list-name">
-                                        Kenneth M.
-                                        <small class="contacts-list-date float-right">1/4/2015</small>
-                                    </span>
-                                    <span class="contacts-list-msg">Never mind I found...</span>
-                                </div>
-                                <!-- /.contacts-list-info -->
-                            </a>
-                        </li>
-                        <!-- End Contact Item -->
-                    </ul>
-                    <!-- /.contacts-list -->
-                </div>
-                <!-- /.direct-chat-pane -->
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer">
-                <form action="#" method="post">
-                    <div class="input-group">
-                        <input type="text" name="message" placeholder="Type Message ..." class="form-control">
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-primary">Send</button>
-                        </span>
-                    </div>
-                </form>
-            </div>
-            <!-- /.card-footer-->
-        </div>
-        <!--/.direct-chat -->
-        <!-- TO DO List -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="ion ion-clipboard mr-1"></i>
-                    To Do List
-                </h3>
-
-                <div class="card-tools">
-                    <ul class="pagination pagination-sm">
-                        <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                        <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <ul class="todo-list" data-widget="todo-list">
-                    <li>
-                        <!-- drag handle -->
-                        <span class="handle">
-                            <i class="fas fa-ellipsis-v"></i>
-                            <i class="fas fa-ellipsis-v"></i>
-                        </span>
-                        <!-- checkbox -->
-                        <div class="icheck-primary d-inline ml-2">
-                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                            <label for="todoCheck1"></label>
-                        </div>
-                        <!-- todo text -->
-                        <span class="text">Design a nice theme</span>
-                        <!-- Emphasis label -->
-                        <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small>
-                        <!-- General tools such as edit or delete-->
-                        <div class="tools">
-                            <i class="fas fa-edit"></i>
-                            <i class="fas fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="handle">
-                            <i class="fas fa-ellipsis-v"></i>
-                            <i class="fas fa-ellipsis-v"></i>
-                        </span>
-                        <div class="icheck-primary d-inline ml-2">
-                            <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
-                            <label for="todoCheck2"></label>
-                        </div>
-                        <span class="text">Make the theme responsive</span>
-                        <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-                        <div class="tools">
-                            <i class="fas fa-edit"></i>
-                            <i class="fas fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="handle">
-                            <i class="fas fa-ellipsis-v"></i>
-                            <i class="fas fa-ellipsis-v"></i>
-                        </span>
-                        <div class="icheck-primary d-inline ml-2">
-                            <input type="checkbox" value="" name="todo3" id="todoCheck3">
-                            <label for="todoCheck3"></label>
-                        </div>
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="badge badge-warning"><i class="far fa-clock"></i> 1 day</small>
-                        <div class="tools">
-                            <i class="fas fa-edit"></i>
-                            <i class="fas fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="handle">
-                            <i class="fas fa-ellipsis-v"></i>
-                            <i class="fas fa-ellipsis-v"></i>
-                        </span>
-                        <div class="icheck-primary d-inline ml-2">
-                            <input type="checkbox" value="" name="todo4" id="todoCheck4">
-                            <label for="todoCheck4"></label>
-                        </div>
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small>
-                        <div class="tools">
-                            <i class="fas fa-edit"></i>
-                            <i class="fas fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="handle">
-                            <i class="fas fa-ellipsis-v"></i>
-                            <i class="fas fa-ellipsis-v"></i>
-                        </span>
-                        <div class="icheck-primary d-inline ml-2">
-                            <input type="checkbox" value="" name="todo5" id="todoCheck5">
-                            <label for="todoCheck5"></label>
-                        </div>
-                        <span class="text">Check your messages and notifications</span>
-                        <small class="badge badge-primary"><i class="far fa-clock"></i> 1 week</small>
-                        <div class="tools">
-                            <i class="fas fa-edit"></i>
-                            <i class="fas fa-trash-o"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="handle">
-                            <i class="fas fa-ellipsis-v"></i>
-                            <i class="fas fa-ellipsis-v"></i>
-                        </span>
-                        <div class="icheck-primary d-inline ml-2">
-                            <input type="checkbox" value="" name="todo6" id="todoCheck6">
-                            <label for="todoCheck6"></label>
-                        </div>
-                        <span class="text">Let theme shine like a star</span>
-                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 month</small>
-                        <div class="tools">
-                            <i class="fas fa-edit"></i>
-                            <i class="fas fa-trash-o"></i>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer clearfix">
-                <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add item</button>
+                <canvas id="barChart" style="min-height: 300px; height: 300px; max-width: 100%;"></canvas>
             </div>
         </div>
-        <!-- /.card -->
-    </section>
 
-    <section class="col-lg-5 connectedSortable">
-
-        <!-- Map card -->
-        <!-- /.card -->
-        <!-- solid sales graph -->
-        <!-- /.card -->
-        <!-- Calendar -->
-        <div class="card bg-gradient-success">
-            <div class="card-header border-0">
-
-                <h3 class="card-title">
-                    <i class="far fa-calendar-alt"></i>
-                    Calendar
-                </h3>
-                <!-- tools card -->
-                <div class="card-tools">
-                    <!-- button with a dropdown -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
-                            <i class="fas fa-bars"></i>
+        <!--IADE Modal -->
+        <div class="modal fade" id="iadeModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">📌 Bugün Son İade Tarihi Olan Kitaplar</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal">
+                            <span>&times;</span>
                         </button>
-                        <div class="dropdown-menu float-right" role="menu">
-                            <a href="#" class="dropdown-item">Add new event</a>
-                            <a href="#" class="dropdown-item">Clear events</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">View calendar</a>
-                        </div>
                     </div>
-                    <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <div class="modal-body">
+                        @if (Model.BugunSonIade != null && Model.BugunSonIade.Any())
+                        {
+                            <ul class="list-group">
+                                @foreach (var item in Model.BugunSonIade)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span><b>@item.KitapAdi</b> - @item.UyeAdi</span>
+
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-muted">✅ Bugün son iade tarihi olan kitap yok.</p>
+                        }
+                    </div>
                 </div>
-                <!-- /. tools -->
             </div>
-            <!-- /.card-header -->
-            <div class="card-body pt-0">
-                <!--The calendar -->
-                <div id="calendar" style="width: 100%"></div>
-            </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
-    </section>
 
 
-    <script src="~/AdminLTE/plugins/jquery/jquery.min.js"></script>
+        <div class="col-lg-6 col-md-12">
+            <div class="card bg-gradient-success">
+                <div class="card-header border-0">
+                    <h3 class="card-title"><i class="far fa-calendar-alt"></i> Calendar</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div id="calendar" style="width:100%; height:400px;"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="row">
+
+        <!-- En Çok Aktif Üyeler -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-header border-0">
+                    <h3 class="card-title">En Çok Aktif Üyeler</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Üye Adı</th>
+                                <th>Aktivite</th>
+                                <th>Oran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                foreach (var uye in Model.TopAktifUyeler)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@uye.AdSoyad</td>
+                                        <td>
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar bg-success" style="width:@uye.Oran%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-success">@uye.Oran%</span></td>
+                                    </tr>
+                                    ;
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- En Çok Ceza Alan Üyeler -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-header border-0">
+                    <h3 class="card-title">En Çok Ceza Alan Üyeler</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Üye Adı</th>
+                                <th>Ceza</th>
+                                <th>Oran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int j = 1;
+                                foreach (var uye in Model.TopCezaUyeler)
+                                {
+                                    <tr>
+                                        <td>@j</td>
+                                        <td>@uye.AdSoyad</td>
+                                        <td>
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar bg-danger" style="width:@uye.Oran%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-danger">@uye.Oran%</span></td>
+                                    </tr>
+                                    ;
+                                    j++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
     <!-- jQuery UI 1.11.4 -->
     <script src="~/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
-    <!-- Bootstrap 4 -->
-    <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- ChartJS -->
+
     <script src="~/AdminLTE/plugins/chart.js/Chart.min.js"></script>
-    <!-- Sparkline -->
-    <script src="~/AdminLTE/plugins/sparklines/sparkline.js"></script>
-    <!-- JQVMap -->
+
     <script src="~/AdminLTE/plugins/jqvmap/jquery.vmap.min.js"></script>
     <script src="~/AdminLTE/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
     <!-- jQuery Knob Chart -->
     <script src="~/AdminLTE/plugins/jquery-knob/jquery.knob.min.js"></script>
     <!-- daterangepicker -->
-    <script src="~/AdminLTE/plugins/moment/moment.min.js"></script>
+
     <script src="~/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="~/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <!-- Summernote -->
     <script src="~/AdminLTE/plugins/summernote/summernote-bs4.min.js"></script>
     <!-- overlayScrollbars -->
     <script src="~/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="~/AdminLTE/dist/js/adminlte.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="~/AdminLTE/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/AdminLTE/dist/js/demo.js"></script>
+    <!-- jQuery -->
+    <script src="~/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Moment.js -->
+    <script src="~/AdminLTE/plugins/moment/moment.min.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/AdminLTE/dist/js/adminlte.js"></script>
+    <!-- FullCalendar -->
+    <script src="~/AdminLTE/plugins/fullcalendar/main.min.js"></script>
+    <script src="~/AdminLTE/plugins/fullcalendar-daygrid/main.min.js"></script>
+    <script src="~/AdminLTE/plugins/fullcalendar-timegrid/main.min.js"></script>
+    <script src="~/AdminLTE/plugins/fullcalendar-interaction/main.min.js"></script>
+    <script src="~/AdminLTE/plugins/fullcalendar-bootstrap/main.min.js"></script>
+
+
+
+    <script>
+  $(function () {
+    var barChartCanvas = $('#barChart').get(0).getContext('2d');
+
+var barChartData = {
+  labels  : ['Ödünç', 'İade', 'Son İade'],
+  datasets: [{
+    label               : 'Kitap Trafiği',
+    backgroundColor     : ['#00a65a', '#3c8dbc', '#f39c12'],
+    borderColor         : ['#00a65a', '#3c8dbc', '#f39c12'],
+    borderWidth         : 1,
+    data                : [
+      @Model.BugunOduncSayisi,
+      @Model.BugunIadeSayisi,
+      @Model.BugunSonIadeSayisi
+    ]
+  }]
+};
+
+var barChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    yAxes: [{
+      ticks: {
+        beginAtZero: true,
+        precision:0
+      }
+    }]
+  },
+  // 👇 Tıklama eventi
+  onClick: function (evt, elements) {
+    if (elements.length > 0) {
+      var index = elements[0]._index;
+      var label = this.data.labels[index];
+      if (label === 'Son İade') {
+        $('#iadeModal').modal('show'); // Modalı aç
+      }
+    }
+  }
+};
+
+var barChart = new Chart(barChartCanvas, {
+  type: 'bar',
+  data: barChartData,
+  options: barChartOptions
+});
+
+  });
+    </script>
+
+    <script>
+        $(function () {
+            var Calendar = FullCalendar.Calendar;
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new Calendar(calendarEl, {
+                plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+                themeSystem: 'bootstrap',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                height: 400, // yükseklik,
+                // örnek eventler
+                events: [
+                    {
+                        title: 'Kitap İadesi',
+                        start: new Date().toISOString().split('T')[0]
+                    },
+                    {
+                        title: 'Yeni Üye Kaydı',
+                        start: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0]
+                    }
+                ]
+            });
+
+            calendar.render();
+        });
+    </script>
+    <style>
+        .fc .fc-toolbar h2 {
+            font-size: 1.2rem; /* Başlık küçülür */
+        }
+
+        .fc .fc-daygrid-day-number {
+            font-size: 0.8rem; /* Gün numaraları küçülür */
+        }
+
+        .fc .fc-event {
+            font-size: 0.75rem; /* Etkinlik yazısı küçülür */
+            padding: 2px 4px;
+        }
+    </style>
+   
+
+
+
 </body>
 </html>
 
